@@ -127,7 +127,6 @@
 		
 		}*/
 	</style>
-	<script type="text/javascript" src="plug-in/audio/getNum.js"></script>
 	<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
 	
 </head>
@@ -138,13 +137,13 @@
 			<span class="header-logo"><img alt="image" width="190" height="60" src="plug-in/login/images/sp3_3.png" /></span>
 			
 			<div class="titlerow" >
-				<div class="titlecell">
+				<!-- <div class="titlecell">
 					<input id="searchbox" placeholder="请输入搜索关键字" class="searchbox" style="padding-right: 23px;border:0">
 					<div class="iconssdiv">
 						<i class="iconfont icon-close ui-iconss" style="font-weight:700;font-size:14px;display:none"></i>
 						<i class="iconfont icon-sousuo ui-iconss"></i>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<ul class="header-bar">
 			
@@ -160,11 +159,29 @@
 			<script type="text/javascript"> 
 				
 				$(function(){
-					function show(){
-						getNum("<%=u.getId() %>","<%=u.getCurrentDepart().getId() %>");
-					}
-					setInterval(show,1000);
+					setInterval(showNum,1000);
 				});
+				
+				function showNum(){
+					 $.ajax({
+			             type: "POST",
+			             url: "sproductController.do?getCount",
+			             data: {id:"<%=u.getId() %>"},
+			             dataType: "json",
+			             success: function(data){
+			             	/* console.log(data);
+			             	console.log($("#view").text()); */
+			             	if(data > $("#view").text()){
+			             		playSound();
+			             		document.getElementById("view").innerHTML=data;
+			             	}else{
+			             		document.getElementById("view").innerHTML=data;			             		
+			             	}
+			             	
+			             }
+			         });
+				}
+				
 			</script>
 			
 			<li class="header-bar-nav personInfo" style="cursor:pointer;"> 
@@ -225,7 +242,6 @@
 					playSound();
 					$(".alert").html(message.content).addClass("alert-success").show().delay(3000).fadeOut();
 					//alert(message.content);
-					getNum("<%=u.getId() %>","<%=u.getCurrentDepart().getId() %>");
 				}
 			});
 			
@@ -242,7 +258,7 @@
 			       embed.volume = 100;
 			       //embed.play();这个不需要
 			     } else{
-			       //非IE内核浏览器
+			       //非IE内核浏览器 
 			       var strAudio = "<audio id='audioPlay' hidden='true'><source src='plug-in/audio/Order_Hint.mp3' type='audio/mpeg'></audio>";
 			       if ( $( "body" ).find( "audio" ).length <= 0 )
 			         $( "body" ).append( strAudio );
@@ -251,7 +267,7 @@
 			       //浏览器支持 audion
 			       audio.play();
 			     }
-			   }
+			}
 			
 			
 			$(function(){
@@ -264,6 +280,7 @@
 					
 				}
 			});
+			
 			function IsPC() {
 				var userAgentInfo = navigator.userAgent;
 				var Agents = ["Android", "iPhone",

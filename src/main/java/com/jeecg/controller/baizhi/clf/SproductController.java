@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.jeecg.entity.baizhi.clf.SadminCategoryEntity;
 import com.jeecg.entity.baizhi.clf.SadminProductEntity;
 import com.jeecg.entity.baizhi.clf.ScategoryEntity;
+import com.jeecg.entity.baizhi.clf.SorderEntity;
 import com.jeecg.service.baizhi.clf.SadminCategoryServiceI;
 import com.jeecg.service.baizhi.clf.SadminProductServiceI;
 import com.jeecg.service.baizhi.clf.ScategoryServiceI;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.RoletoJson;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -50,6 +51,7 @@ import org.jeecgframework.core.beanvalidator.BeanValidators;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+
 import java.net.URI;
 
 import org.springframework.http.MediaType;
@@ -467,6 +469,24 @@ public class SproductController extends BaseController {
 
         }
 
+    }
+    
+    @RequestMapping(params = "getCount")
+    @ResponseBody
+    public String getCount(HttpServletRequest request,String id){
+    	
+    	Integer currentIndex = 0;
+    	
+    	List<SorderEntity> orders = systemService.findByProperty(SorderEntity.class, "adminId", id);
+    	for (SorderEntity sorderEntity : orders) {
+
+    		if("待处理".equals(sorderEntity.getOrderStatus())){
+    			currentIndex++;
+    		}
+		}
+		String num = String.valueOf(currentIndex);
+    	
+    	return num;
     }
 
 }
