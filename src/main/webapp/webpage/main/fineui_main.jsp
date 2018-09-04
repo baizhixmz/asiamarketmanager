@@ -149,7 +149,7 @@
 			
 			
 			<li class="dropdown hidden-xs">
-				<a href="javascript:addOneTab('我的任务', 'sorderController.do?list', 'default');">                             	
+				<a href="javascript:addOneTab('我的任务', 'sorderController.do?webapplist', 'default');">                             	
 			    	<i class="fa fa-bell" style="color:#EE6B6B"></i> 待办(<span id="view">0</span>)
 				</a> 
 			</li> 
@@ -302,13 +302,7 @@
 				<t:menu style="fineui" menuFun="${menuMap}"></t:menu>
 			</ul>
 		</aside>
-		
-		<!-- 切换左侧菜单栏 -->
-	<!-- 	<div class="layout-side-arrow">
-			<div class="layout-side-arrow-icon">
-				<i class="icon-font">&#xe60e;</i>
-			</div>
-		</div> -->
+	
 		
 		<!-- 右侧home -->
 		<section class="layout-main">

@@ -146,57 +146,64 @@ function Login(orgId) {
 		error : function() {// 请求失败处理函数
 		},
 		success : function(data) {
-			var d = $.parseJSON(data);
-			if (d.success) {
-				loginsuccess();
-
-                // todo zhanggm 没有处理多语言，暂时这样判断下吧
-                var title, okButton;
-                if($("#langCode").val() == 'en') {
-                    title = "Please select Org";
-                    okButton = "Ok";
-                } else {
-                    title = "请选择组织机构";
-                    okButton = "确定";
-                }
-                if (d.attributes.orgNum > 1) {
-                    $.dialog({
-                        id: 'LHG1976D',
-                        title: title,
-                        max: false,
-                        min: false,
-                        drag: false,
-                        resize: false,
-                        content: 'url:userController.do?userOrgSelect&userId=' + d.attributes.user.id,
-                        lock:true,
-                        button : [ {
-                            name : okButton,
-                            focus : true,
-                            callback : function() {
-                                iframe = this.iframe.contentWindow;
-                                var orgId = $('#orgId', iframe.document).val();
-                                Login(orgId);
-                                this.close();
-                                return false;
-                            }
-                        }],
-                        close: function(){
-                            window.location.href = actionurl;
-                        }
-                    });
-                } else {
-                    setTimeout("window.location.href='"+actionurl+"'", 1000);
-                }
-
-			} else {
-				if(d.msg == "a"){
-					$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
-						window.location = "init.jsp";
-					}, function(){
-						//
-					});
-				} else
-					showError(d.msg);
+			var flag = IsPC();
+			
+			console.log(flag);
+			if(flag){
+				var d = $.parseJSON(data);
+				if (d.success) {
+					loginsuccess();
+	
+	                // todo zhanggm 没有处理多语言，暂时这样判断下吧
+	                var title, okButton;
+	                if($("#langCode").val() == 'en') {
+	                    title = "Please select Org";
+	                    okButton = "Ok";
+	                } else {
+	                    title = "请选择组织机构";
+	                    okButton = "确定";
+	                }
+	                if (d.attributes.orgNum > 1) {
+	                    $.dialog({
+	                        id: 'LHG1976D',
+	                        title: title,
+	                        max: false,
+	                        min: false,
+	                        drag: false,
+	                        resize: false,
+	                        content: 'url:userController.do?userOrgSelect&userId=' + d.attributes.user.id,
+	                        lock:true,
+	                        button : [ {
+	                            name : okButton,
+	                            focus : true,
+	                            callback : function() {
+	                                iframe = this.iframe.contentWindow;
+	                                var orgId = $('#orgId', iframe.document).val();
+	                                Login(orgId);
+	                                this.close();
+	                                return false;
+	                            }
+	                        }],
+	                        close: function(){
+	                            window.location.href = actionurl;
+	                        }
+	                    });
+	                } else {
+	                    setTimeout("window.location.href='"+actionurl+"'", 1000);
+	                }
+	
+				} else {
+					if(d.msg == "a"){
+						$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
+							window.location = "init.jsp";
+						}, function(){
+							//
+						});
+					} else
+						showError(d.msg);
+				}
+			}else{
+				window.location.href = "webapp.jsp"
 			}
 		}
 	});
@@ -346,3 +353,19 @@ var exp = new Date();
 exp.setTime(exp.getTime() + Days*24*60*60*1000);
 document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 }
+
+function IsPC() {
+	var userAgentInfo = navigator.userAgent;
+	var Agents = ["Android", "iPhone",
+				"SymbianOS", "Windows Phone",
+				"iPad", "iPod"];
+	var flag = true;
+	for (var v = 0; v < Agents.length; v++) {
+		if (userAgentInfo.indexOf(Agents[v]) > 0) {
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+}
+

@@ -5,45 +5,39 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="sorderList" title="订单表" actionUrl="sorderController.do?datagrid" idField="id" queryMode="group" fit="true">
+        <t:datagrid name="sorderListWebapp" title="订单表" actionUrl="sorderController.do?datagridWebapp" idField="id" queryMode="group" fit="true">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="userId" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="adminId" hidden="true"></t:dgCol>
             <t:dgCol title="订单编号" field="orderNum" width="120" query="true"></t:dgCol>
             <t:dgCol title="订单状态" field="orderStatus" width="60"></t:dgCol>
             <t:dgCol title="创建日期"  field="time" formatter="yyyy-MM-dd" query="true" queryMode="group" editor="datebox" width="120"></t:dgCol>
-            <t:dgCol title="订单总价" field="orderSalary" width="50"></t:dgCol>
-            <t:dgCol title="收件人/取件人" field="userMsg" width="60"></t:dgCol>
-            <t:dgCol title="联系电话" field="phone" width="80"></t:dgCol>
+            <t:dgCol title="订单总价" field="orderSalary" width="120"></t:dgCol>
+            <t:dgCol title="收件人/取件人" field="userMsg" width="120"></t:dgCol>
+            <t:dgCol title="联系电话" field="phone" width="120"></t:dgCol>
             <t:dgCol title="收货地址" field="orderAddress" width="120"></t:dgCol>
             <t:dgCol title="取货时间" field="qTime" width="120"></t:dgCol>
-            <t:dgCol title="操作" field="opt" width="120"></t:dgCol>
-            <t:dgDelOpt title="删除" url="sorderController.do?del&id={id}" urlclass="ace_button" urlfont="fa-trash-o"/>
+            <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
             <t:dgFunOpt title="更改状态" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
             <t:dgToolBar title="查看订单详情" icon="icon-search" url="sorderController.do?openOrderItem"
                          funname="openOrderItem" width="700" height="400"></t:dgToolBar>
-            <t:dgToolBar title="导出订单详情" icon="icon-putout" funname="ExportXls" operationCode="exportXls"></t:dgToolBar>
-            <t:dgToolBar title="导出采购信息" icon="icon-putout" funname="ExportXls2"></t:dgToolBar>
         </t:datagrid>
     </div>
 </div>
 <% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); System.out.println(u.getUserName()+";id="+u.getId()+";"+u.getCurrentDepart().getId());%> 
 <script>
     function changeStatus(data,data2,data3,data4) {
-        var row = $('#sorderList').datagrid('getSelected');
+        var row = $("#sorderListWebapp").datagrid("getSelected");
         if(row == null) {
             alert("请先选中行！");
             return ;
         }
-
-        <%-- var value1 = "<%=u.getId() %>";
-        var value2 = "<%=u.getCurrentDepart().getId() %>"; --%>
-
         $.ajax({
             url:"${pageContext.request.contextPath}/sorderController.do?changeStatus",
             data:row,
             success:function(){
-                $("#sorderList").datagrid("reload");
+                $("#sorderListWebapp").datagrid("reload");
+                
             }
         });
         
@@ -54,7 +48,7 @@
 <script type="text/javascript">
     var iframe = "";
     function openOrderItem(title, addurl, thisPage, width, height) {
-        var id = $('#sorderList').datagrid('getSelected').orderNum;
+        var id = $('#sorderListWebapp').datagrid('getSelected').orderNum;
         addurl = addurl+"&id="+id;
         createwindow2(title, addurl, width, height);
     }
@@ -118,14 +112,6 @@
         //关闭dialog窗口
         iframe.document.$lutn.close();
 
-    }
-    //导出
-    function ExportXls() {
-        JeecgExcelExport("sorderController.do?exportXls","sorderList");
-    }
-    //导出
-    function ExportXls2() {
-        JeecgExcelExport("sorderController.do?exportXls2","sorderList");
     }
     
 </script>

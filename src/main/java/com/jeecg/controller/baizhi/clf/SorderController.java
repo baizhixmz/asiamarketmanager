@@ -110,6 +110,12 @@ public class SorderController extends BaseController {
     public ModelAndView list(HttpServletRequest request) {
         return new ModelAndView("com/jeecg/baizhi.clf/sorderList");
     }
+    
+    @RequestMapping(params = "webapplist")
+    public ModelAndView webapplist(HttpServletRequest request) {
+    	System.out.println("=====================");
+    	return new ModelAndView("com/jeecg/baizhi.clf/sorderListWebapp");
+    }
 
     /**
      * easyui AJAX请求数据
@@ -168,6 +174,56 @@ public class SorderController extends BaseController {
         dataGrid.setResults(results2);
 
         TagUtil.datagrid(response, dataGrid, extMap);
+    }
+    @RequestMapping(params = "datagridWebapp")
+    @ResponseBody
+    public void datagridWebapp(SorderEntity sorder, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    	CriteriaQuery cq = new CriteriaQuery(SorderEntity.class, dataGrid);
+    	
+    	TSUser tsUser = ResourceUtil.getSessionUser();
+    	
+    	cq.eq("adminId", tsUser.getId());
+    	
+    	//查询条件组装器
+    	org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sorder, request.getParameterMap());
+    	this.sorderService.getDataGridReturn(cq, true);
+    	//获得当前店铺的所有订单
+    	List<SorderEntity> results = (List<SorderEntity>) dataGrid.getResults();
+    	
+    	//List<SorderEntity> results = sorderService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
+    	
+    	
+    	List<SorderEntity> results2 = new ArrayList<SorderEntity>();
+    	//扩展字段集合
+    	HashMap<String, Map<String, Object>> extMap = new HashMap<String, Map<String,Object>>();
+    	for (SorderEntity od : results) {
+    		if("待处理".equals(od.getOrderStatus())){
+	    		List<SorderTypeEntity> orderType = sorderTypeServiceI.findByProperty(SorderTypeEntity.class, "orderNum", od.getOrderNum());
+	    		
+	    		//获取收货或取货信息
+	    		SorderTypeEntity sorderTypeEntity = orderType.get(0);
+	    		//获取该订单的所有订单项
+	    		List<SorderItemEntity> orderItems = sorderItemService.findByProperty(SorderItemEntity.class, "orderId", od.getId());
+	    		
+	    		
+	    		//每行所扩展的字段
+	    		HashMap<String, Object> map = new HashMap<String, Object>();
+	    		
+	    		map.put("userMsg", sorderTypeEntity.getName());
+	    		map.put("phone", sorderTypeEntity.getPhone());
+	    		map.put("orderAddress",sorderTypeEntity.getAddress());
+	    		map.put("qTime",sorderTypeEntity.getQtime());
+	    		
+	    		//添加扩展字段
+	    		extMap.put(od.getId(), map);
+	    		//每行数据
+	    		results2.add(od);
+    		}
+    	}
+    	//把更改的数据覆盖原有的数据
+    	dataGrid.setResults(results2);
+    	
+    	 TagUtil.datagrid(response, dataGrid, extMap);
     }
 
     /**

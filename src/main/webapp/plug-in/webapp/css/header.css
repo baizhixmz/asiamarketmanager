@@ -1,0 +1,39 @@
+header {
+	height: 50px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #ccc;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #fff;
+	z-index: 999;
+	padding-top: 4px;
+}
+
+.left {
+	margin-left: 2px;
+	font-size: 20px;
+	color: #999;
+	width: 100px;
+}
+
+.left img {
+	width: 100%;
+}
+
+.right {
+
+}
+
+header .title {
+	font-size: 20px;
+	margin-left: -70px;
+	font-family:"楷体","kaiTi","微软雅黑";
+}
