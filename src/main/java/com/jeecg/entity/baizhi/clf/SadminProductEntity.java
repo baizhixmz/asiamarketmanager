@@ -106,4 +106,12 @@ public class SadminProductEntity implements java.io.Serializable {
 	public void setPrice(java.lang.Double price){
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "SadminProductEntity [id=" + id + ", productId=" + productId
+				+ ", adminId=" + adminId + ", price=" + price + "]";
+	}
+	
+	
 }

@@ -5,7 +5,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="sorderListWebapp" title="订单表" actionUrl="sorderController.do?datagridWebapp" idField="id" queryMode="group" fit="true">
+        <t:datagrid name="sorderListWebapp" pagination="false" title="未处理订单" actionUrl="sorderController.do?datagridWebapp" idField="id" queryMode="group" fit="true">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="userId" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="adminId" hidden="true"></t:dgCol>

@@ -108,8 +108,7 @@
 			             data: {id:"<%=u.getId() %>"},
 			             dataType: "json",
 			             success: function(data){
-			             	/* console.log(data);
-			             	console.log($("#view").text()); */
+			             	
 			             	if(data > $("#view").text()){
 			             		playSound();
 			             		document.getElementById("view").innerHTML=data;

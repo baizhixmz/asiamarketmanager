@@ -70,4 +70,12 @@ public class ScategoryEntity implements java.io.Serializable {
 	public void setName(java.lang.String name){
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "ScategoryEntity [id=" + id + ", name=" + name + "]";
+	}
+	
+	
+	
 }

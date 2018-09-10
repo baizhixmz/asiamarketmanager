@@ -172,6 +172,7 @@ public class SorderController extends BaseController {
         }
         //把更改的数据覆盖原有的数据
         dataGrid.setResults(results2);
+        
 
         TagUtil.datagrid(response, dataGrid, extMap);
     }
@@ -188,15 +189,14 @@ public class SorderController extends BaseController {
     	org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sorder, request.getParameterMap());
     	this.sorderService.getDataGridReturn(cq, true);
     	//获得当前店铺的所有订单
-    	List<SorderEntity> results = (List<SorderEntity>) dataGrid.getResults();
+    	//List<SorderEntity> results = (List<SorderEntity>) dataGrid.getResults();
     	
-    	//List<SorderEntity> results = sorderService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
-    	
+    	List<SorderEntity> orders = systemService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
     	
     	List<SorderEntity> results2 = new ArrayList<SorderEntity>();
     	//扩展字段集合
     	HashMap<String, Map<String, Object>> extMap = new HashMap<String, Map<String,Object>>();
-    	for (SorderEntity od : results) {
+    	for (SorderEntity od : orders) {
     		if("待处理".equals(od.getOrderStatus())){
 	    		List<SorderTypeEntity> orderType = sorderTypeServiceI.findByProperty(SorderTypeEntity.class, "orderNum", od.getOrderNum());
 	    		
@@ -220,10 +220,17 @@ public class SorderController extends BaseController {
 	    		results2.add(od);
     		}
     	}
+    	
     	//把更改的数据覆盖原有的数据
     	dataGrid.setResults(results2);
     	
-    	 TagUtil.datagrid(response, dataGrid, extMap);
+    	DataGrid dataGrid2 = new DataGrid();
+         
+        System.out.println(results2.size());
+         
+        dataGrid2.setResults(results2);
+    	
+    	TagUtil.datagrid(response, dataGrid, extMap);
     }
 
     /**

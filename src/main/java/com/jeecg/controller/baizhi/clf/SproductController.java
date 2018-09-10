@@ -168,30 +168,18 @@ public class SproductController extends BaseController {
             message = "商品表更新成功";
             SproductEntity t = sproductService.get(SproductEntity.class, sproduct.getId());
             try {
-                if (tsUser.getUserName().equals("SuperAdmin")) {
-                    //如果是超级管理员  允许更改商品
-                    MyBeanUtils.copyBeanNotNull2Bean(sproduct, t);
-                    sproductService.saveOrUpdate(t);
-                } else if (t.getFlag() != null && t.getFlag().equals("Y")) {
-                    //否则只能更改仓库商品价格
-                    sadminProductServiceI.updateBySqlString("update s_admin_product set price='" + sproduct.getPrice() + "' where product_id='" + sproduct.getId() + "'");
-                } else {
                     //在否则可以添加商品 并且维护关系价格
                     sadminProductServiceI.updateBySqlString("update s_admin_product set price='" + sproduct.getPrice() + "' where product_id='" + sproduct.getId() + "'");
                     MyBeanUtils.copyBeanNotNull2Bean(sproduct, t);
                     sproductService.saveOrUpdate(t);
-                }
+                
                 systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
             } catch (Exception e) {
                 e.printStackTrace();
                 message = "商品表更新失败";
             }
         } else {
-            if (tsUser.getUserName().equals("SuperAdmin")) {
-                //如果是超级管理员添加商品
-                sproduct.setFlag("Y");
-                sproductService.save(sproduct);
-            } else {
+            
 
                 //添加商品
                 Serializable productId = sproductService.save(sproduct);
@@ -204,7 +192,7 @@ public class SproductController extends BaseController {
                 //添加关系
                 sadminProductServiceI.save(productEntity);
 
-            }
+            
             message = "商品表添加成功";
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -405,7 +393,6 @@ public class SproductController extends BaseController {
         //获取所有仓库商品
         List<SproductEntity> storeProducts = (List<SproductEntity>)dataGrid.getResults();
 
-        //List<SproductEntity> storeProducts = sproductService.findByProperty(SproductEntity.class, "flag", "Y");
 
         //获取用户已选择的商品
         List<SadminProductEntity> productEntityList = sadminProductServiceI.findByProperty(SadminProductEntity.class, "adminId", tsUser.getId());

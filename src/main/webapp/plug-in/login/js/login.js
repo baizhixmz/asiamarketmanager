@@ -148,8 +148,8 @@ function Login(orgId) {
 		success : function(data) {
 			var flag = IsPC();
 			
-			console.log(flag);
-			if(flag){
+			console.log("isPC:"+flag);
+			if(!flag){
 				var d = $.parseJSON(data);
 				if (d.success) {
 					loginsuccess();
@@ -197,7 +197,7 @@ function Login(orgId) {
 						$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
 							window.location = "init.jsp";
 						}, function(){
-							//
+							
 						});
 					} else
 						showError(d.msg);
@@ -355,17 +355,25 @@ document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 }
 
 function IsPC() {
-	var userAgentInfo = navigator.userAgent;
-	var Agents = ["Android", "iPhone",
-				"SymbianOS", "Windows Phone",
-				"iPad", "iPod"];
 	var flag = true;
-	for (var v = 0; v < Agents.length; v++) {
-		if (userAgentInfo.indexOf(Agents[v]) > 0) {
-			flag = false;
-			break;
-		}
-	}
+	var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+        //跳转移动端页面
+        flag = true;
+    	//window.location.href="http://f.jcngame.com/fanfan20171208/mobile/index.html";
+    } else {
+        //跳转pc端页面
+    	flag = false;
+    	//window.location.href="http://f.jcngame.com/fanfan20171208//fanmai/index.html";
+    }
 	return flag;
 }
 

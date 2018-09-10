@@ -36,8 +36,6 @@
             return ;
         }
 
-        <%-- var value1 = "<%=u.getId() %>";
-        var value2 = "<%=u.getCurrentDepart().getId() %>"; --%>
 
         $.ajax({
             url:"${pageContext.request.contextPath}/sorderController.do?changeStatus",

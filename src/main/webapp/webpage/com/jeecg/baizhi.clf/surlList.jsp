@@ -11,7 +11,6 @@
    <t:dgCol title="中文店名"  field="name1"  query="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="德文店名"  field="name2"  query="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="最低包邮价格"  field="minPrice"  queryMode="single"  width="120"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
    <c:choose>
    		<c:when test="${sessionScope.LOCAL_CLINET_USER.userName == 'SuperAdmin' || sessionScope.LOCAL_CLINET_USER.userName == 'sadmin'}">
 		   <t:dgDelOpt title="删除" url="surlController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
@@ -21,7 +20,6 @@
    <%-- <t:dgDelOpt title="删除" url="surlController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
    <t:dgToolBar title="录入" icon="icon-add" url="surlController.do?goAdd" funname="add"></t:dgToolBar> --%>
    <t:dgToolBar title="编辑" icon="icon-edit" url="surlController.do?goUpdate" funname="update"></t:dgToolBar>
-   <t:dgToolBar title="导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    <t:dgToolBar title="导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
   </t:datagrid>
   </div>
