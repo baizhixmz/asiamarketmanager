@@ -1,37 +1,50 @@
 $(function(){
-	// 判断登录
-	function getCookie(cookieName) {
-	    var strCookie = document.cookie;
-	    var arrCookie = strCookie.split("; ");
-	    for(var i = 0; i < arrCookie.length; i++){
-	        var arr = arrCookie[i].split("=");
-	        if(cookieName == arr[0]){
-	            return arr[1];
-	        }
-	    }
-	    return "";
-	}
-	var username = getCookie("JSESSIONID");
-	// document.cookie="JSESSIONID="+username;
-
-	if(true) {
 			$.ajax({
-				url: 'sorderController.do?webapplist',
+				url: 'sorderController.do?getAdminOrders',
 				type: 'POST',
 				dataType: 'JSON',
 				success:function(data){
-					console.log(data);
 					if(data!=""){
-						$.each(JSON.parse(data),function(index,ele){
+						$.each(data,function(index,ele){
 							var totalNum = 0;
 									var orderListheaderStr = `<div class="orderDetail">
 											<div class="orderListHeader">
-									        	<div class="orderNumber" >订单编号:${ele.sorderEntity.orderNum}</div>
-									        	<div class="orderStatus">订单状态：<span style="color:#d8505c ">${ele.sorderEntity.orderStatus}</span></div>
+									        	<div class="orderNumber" >订单编号:${ele.orderNum}</div>
+									        	<div class="orderStatus">订单状态：<span style="color:#d8505c ">${ele.orderStatus}</span></div>
 									        </div>
 										</div>`;
 								$("#cart-shop").append(orderListheaderStr);
-								var goodsInfo = JSON.parse(data)[index].cartCarVO;
+								
+								var goodsInfo;
+								
+								$.ajax({
+									url: 'sorderController.do?getOrderItems',
+									type: 'POST',
+									dataType: 'JSON',
+									data:{orderNum:ele.orderNum},
+									async: false,
+									success:function(data){
+										
+										goodsInfo = data;
+									}
+								
+								});
+								
+								var orderType;
+								
+								$.ajax({
+									url: 'sorderTypeController.do?getOrderType',
+									type: 'POST',
+									dataType: 'JSON',
+									data:{orderNum:ele.orderNum},
+									async: false,
+									success:function(data){
+										
+										orderType = data;
+									}
+								
+								});
+								
 
 								$.each(goodsInfo,function(GoodsIndex,GoodsEle){
 									totalNum+=GoodsEle.count;
@@ -39,13 +52,13 @@ $(function(){
 									var orderListContentrStr = `<div class="item"><div class="cart-shop-content">
 											            <div class="cart-shop-content-right">
 											                <a href="#" class="product-img">
-											                    <img src="http://lu-food.com/net_shop_manager/${GoodsEle.sproductEntity.imgsrc}" alt=""/>
+											                    <img src="${GoodsEle.imgsrc}" alt=""/>
 											                </a>
 											                <div class="product-info">
-											                    <a href="#" class="info-txt"></a>
+											                <a href="#" class="info-txt">${GoodsEle.name}</a>
 											                    <div class="option">
 											                        <div class="pull-left">
-											                    		<p class="price">商品单价：€ <b>${GoodsEle.sproductEntity.price}</b></p>
+											                    		<p class="price">商品单价：€ <b>${GoodsEle.price}</b></p>
 											                            <span class="num">购买数量：<b>${GoodsEle.count}</b></span>
 											                        </div>
 											                    </div>
@@ -55,9 +68,14 @@ $(function(){
 										        </div>`;
 									$(".orderListHeader").last().after(orderListContentrStr);
 								});
-
+								
 								var orderListFooterStr = `<div class="orderListFooter">
-												        	<div>共<span class="totalNum">${totalNum}</span>件商品 合计： <span class="totalPrice" style="color:#d8505c">€ ${ele.sorderEntity.orderSalary}</span></div>
+												        	<div style="float:left;">
+												        		收/取件人：<span class="totalNum">${orderType.name}</span><br/>
+												        		联系方式：${orderType.phone}
+												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">确认订单</a></button>
+												        	</div>
+												        	
 												        </div>`;
 
 					        	$(".item .cart-shop-content").last().after(orderListFooterStr);
@@ -69,7 +87,26 @@ $(function(){
 					}
 				}
 			})
-		}else {
-			window.location.href="../webApp-shop/login.jsp";
-		}
+		
 })
+
+function changeStatus(obj){
+	
+	var thisObj = $(obj);
+	
+    var orderId = thisObj.attr("id");
+	$.ajax({
+		url: 'sorderController.do?updateOrder',
+		type: 'POST',
+		dataType: 'JSON',
+		data:{id:orderId},
+		async: false,
+		success:function(data){
+			
+			location.reload();   
+		}
+	});
+	
+	
+}
+

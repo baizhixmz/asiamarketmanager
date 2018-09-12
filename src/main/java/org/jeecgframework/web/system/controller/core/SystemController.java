@@ -1531,7 +1531,8 @@ public class SystemController extends BaseController {
         String msg="啥都没干-没传参数吧！";
         String upFlag=request.getParameter("isup");
         String delFlag=request.getParameter("isdel");
-        String ctxPath = request.getSession().getServletContext().getRealPath("");
+        //String ctxPath = request.getSession().getServletContext().getRealPath("");
+        String ctxPath = "/opt/tomcat/webapps/upFiles";
        //String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
         try {
 	        //如果是上传操作
@@ -1554,7 +1555,7 @@ public class SystemController extends BaseController {
 	    		FileCopyUtils.copy(mf.getBytes(), savefile);
 				msg="上传成功";
 				j.setMsg(msg);
-				String dbpath=bizPath+File.separator+nowday+File.separator+fileName;
+				String dbpath="/upFiles/"+bizPath+File.separator+nowday+File.separator+fileName;
 				j.setObj(dbpath);
 				//1、将文件路径赋值给obj,前台可获取之,随表单提交,然后数据库中存储该路径
 				//2、demo这里用的是AjaxJson对象,开发者可自定义返回对象,但是用t标签的时候路径属性名需为  obj或 filePath 或自己在标签内指定若在标签内指定则action返回路径的名称应保持一致
@@ -1598,6 +1599,7 @@ public class SystemController extends BaseController {
 	public void getImgByurl(HttpServletResponse response,HttpServletRequest request) throws Exception{
 		String flag=request.getParameter("down");//是否下载否则展示图片
 		String dbpath = request.getParameter("dbPath");
+		
 		if("1".equals(flag)){
 			response.setContentType("application/x-msdownload;charset=utf-8");
 			String fileName=dbpath.substring(dbpath.lastIndexOf(File.separator)+1);
@@ -1619,7 +1621,8 @@ public class SystemController extends BaseController {
 		try {
 			String localPath = request.getSession().getServletContext().getRealPath("");
 			//String localPath=ResourceUtil.getConfigByName("webUploadpath");
-			String imgurl = localPath+File.separator+dbpath;
+			//String imgurl = localPath+File.separator+dbpath;
+			String imgurl = "/opt/tomcat/webapps"+dbpath;
 			inputStream = new BufferedInputStream(new FileInputStream(imgurl));
 			outputStream = response.getOutputStream();
 			byte[] buf = new byte[1024];

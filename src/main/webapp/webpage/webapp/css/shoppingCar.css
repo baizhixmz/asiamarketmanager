@@ -1,0 +1,369 @@
+html,
+body
+{
+    background-color: #f5f5f5;
+}
+
+.cart-shop
+{
+    margin-top: 60px;
+	padding-bottom: 100px;
+    /*   background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc; */
+}
+
+.cart-shop .shopping-car
+{
+    margin-top: 180px;
+
+    text-align: center;
+}
+
+.shopping-car .ico-shoppingCar
+{
+    margin-top: 40px;
+}
+
+.shopping-car .txt
+{
+    font-size: 18px;
+
+    margin: 10px auto;
+}
+
+.shopping-car a
+{
+    color: #fff;
+}
+
+.m0
+{
+    margin: 0 !important;
+    margin-bottom: 40px;
+}
+
+.shopping-car .ico-shoppingCar span
+{
+    font-size: 40px;
+}
+
+.cart-shop .cart-shop-title
+{
+    position: relative;
+
+    height: 34px;
+    padding-left: 40px;
+
+    border-bottom: 1px solid #ccc;
+}
+.cart-shop .cart-shop-title .cart-shop-title-left
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 40px;
+    height: 34px;
+}
+.cart-shop .cart-shop-title .cart-shop-title-left a
+{
+    display: block;
+
+    height: 34px;
+    padding: 7px 10px;
+
+    background: url(images/shop-icon.png) no-repeat;
+    background-position: 0 0;
+    background-clip: content-box;
+    background-origin: content-box;
+    background-size: 50px 100px;
+}
+.cart-shop .cart-shop-title .cart-shop-title-right
+{
+    width: 100%;
+    height: 34px;
+}
+.cart-shop .cart-shop-title .cart-shop-title-right div
+{
+    line-height: 34px;
+}
+.cart-shop .cart-shop-title .cart-shop-title-right .pull-left
+{
+    padding-left: 20px;
+
+    background: url(images/buy-logo.png) no-repeat 3px center;
+    background-size: 15px 15px;
+}
+
+.pull-left input {
+    width: 60px !important;
+}
+
+.cart-shop .cart-shop-title .cart-shop-title-right .pull-right
+{
+    font-size: 12px;
+
+    color: #d8505c;
+}
+.cart-shop .cart-shop-content
+{
+    position: relative;
+
+    height: 100px;
+    padding: 10px 0;
+    padding-left: 20px;
+
+    border-bottom: 1px solid #ccc;
+}
+.cart-shop .cart-shop-content .cart-shop-content-left
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 40px;
+    height: 34px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-left a
+{
+    display: block;
+
+    height: 34px;
+    padding: 7px 10px;
+
+    background: url(images/shop-icon.png) no-repeat;
+    background-position: -25px 0;
+    background-clip: content-box;
+    background-origin: content-box;
+    background-size: 50px 100px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right
+{
+    width: 100%;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-img
+{
+    float: left;
+
+    width: 80px;
+    height: 80px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-img img
+{
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info
+{
+    overflow: hidden;
+
+    height: 80px;
+    padding: 0 15px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .info-txt
+{
+    line-height: 18px;
+
+    display: block;
+    overflow: hidden;
+
+    height: 36px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .price
+{
+    color: #d8505c;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-left span,
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-left input
+{
+    font-size: 16px;
+    line-height: 20px;
+
+    float: left;
+
+    width: 32px;
+    height: 24px;
+
+    text-align: center;
+
+    color: #666;
+    border: 1px solid #ccc;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-left input
+{
+    border-right: none;
+    border-left: none;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-left span:nth-of-type(1)
+{
+    border-radius: 3px 0 0 3px;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-left span:nth-of-type(2)
+{
+    border-radius: 0 3px 3px 0;
+}
+.cart-shop .cart-shop-content .cart-shop-content-right .product-info .option .pull-right
+{
+    position: absolute;
+    right: 20px;
+    bottom: 14px;
+
+    width: 19px;
+    height: 21px;
+}
+
+.maskBody
+{
+    position: absolute;
+    z-index: 998;
+    top: 50px;
+    right: 0;
+    bottom: 50px;
+    left: 0;
+
+    display: none;
+
+    background: rgba(0, 0, 0, .8);
+}
+
+.mask
+{
+    position: absolute;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+
+    display: none;
+
+    width: 240px;
+    height: 100px;
+
+    -webkit-transform: translate(-50%,-50%);
+       -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+
+    border-radius: 10px;
+    background: rgba(0, 0, 0, .6);
+}
+
+.mask .close
+{
+    display: -webkit-flex;
+    display:    -moz-flex;
+    display:     -ms-flex;
+    display:      -o-flex;
+    display:         flex;
+
+    margin-top: 6px;
+    margin-right: 10px;
+
+    color: #fff;
+
+    justify-content: flex-end;
+}
+
+.mask .txt
+{
+    font-size: 12px;
+
+    margin-top: 6px;
+
+    text-align: center;
+
+    color: #fff;
+}
+
+.btn
+{
+    display: -webkit-flex;
+    display:    -moz-flex;
+    display:     -ms-flex;
+    display:      -o-flex;
+    display:         flex;
+
+    margin-top: 6px;
+
+    justify-content: center;
+}
+
+.btnSure,
+.btnCancel
+{
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+
+    display: inline-block;
+
+    margin-bottom: 0;
+    padding: 6px 12px;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    color: #fff;
+    border: 1px solid transparent;
+    border-color: #d43f3a;
+    border-radius: 4px;
+    outline: none;
+    background: #d9534f;
+    background-image: none;
+
+    -ms-touch-action: manipulation;
+        touch-action: manipulation;
+}
+
+.btnSure
+{
+    margin-right: 10px;
+}
+
+/* 创建订单 */
+
+.createList {
+    position: fixed;
+    right: 0;
+    bottom: 50px;
+    left: 0;
+    display: -webkit-flex;
+    display:    -moz-flex;
+    display:     -ms-flex;
+    display:      -o-flex;
+    display:         flex;
+
+    width: 100%;
+    height: 40px;
+    padding-left: 10px;
+
+    background: rgba(0, 0, 0, .8);
+
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.createList .btnPrice {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+}
+
+.createList .btnPay {
+    height: 40px;
+    line-height: 40px;
+    background: orange;
+    flex: 0 0 100px;
+    text-align: center;
+    color: #fff;
+}

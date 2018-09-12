@@ -11,12 +11,8 @@
             <t:dgCol title="编号" field="adminId" hidden="true"></t:dgCol>
             <t:dgCol title="订单编号" field="orderNum" width="120" query="true"></t:dgCol>
             <t:dgCol title="订单状态" field="orderStatus" width="60"></t:dgCol>
-            <t:dgCol title="创建日期"  field="time" formatter="yyyy-MM-dd" query="true" queryMode="group" editor="datebox" width="120"></t:dgCol>
-            <t:dgCol title="订单总价" field="orderSalary" width="120"></t:dgCol>
             <t:dgCol title="收件人/取件人" field="userMsg" width="120"></t:dgCol>
             <t:dgCol title="联系电话" field="phone" width="120"></t:dgCol>
-            <t:dgCol title="收货地址" field="orderAddress" width="120"></t:dgCol>
-            <t:dgCol title="取货时间" field="qTime" width="120"></t:dgCol>
             <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
             <t:dgFunOpt title="更改状态" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
             <t:dgToolBar title="查看订单详情" icon="icon-search" url="sorderController.do?openOrderItem"

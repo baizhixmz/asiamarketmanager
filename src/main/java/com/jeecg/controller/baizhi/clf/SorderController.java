@@ -399,11 +399,9 @@ public class SorderController extends BaseController {
         String status = sorder.getOrderStatus();
         if (status.equals("已处理")) {
 
-            //sorder.setOrderStatus("N");
             sorder.setOrderStatus("待处理");
 
         } else {
-            //sorder.setOrderStatus("Y");
             sorder.setOrderStatus("已处理");
         }
         sorderService.saveOrUpdate(sorder);
@@ -534,6 +532,54 @@ public class SorderController extends BaseController {
         modelMap.put(NormalExcelConstants.DATA_LIST,values);
         return NormalExcelConstants.JEECG_EXCEL_VIEW;
     }
-
+    
+    @ResponseBody
+    @RequestMapping(params = "updateOrder")
+    public String getAdminOrder(HttpServletRequest request,String id){
+    	
+    	TSUser tsUser = ResourceUtil.getSessionUser();
+    	
+    	
+    	SorderEntity sorderEntity = sorderService.findUniqueByProperty(SorderEntity.class, "id", id);
+    	
+    	sorderEntity.setOrderStatus("已处理");
+    	
+    	sorderService.saveOrUpdate(sorderEntity);
+    
+    	return "success";
+    	
+    }
+    
+    @ResponseBody
+    @RequestMapping(params = "getAdminOrders")
+    public List<SorderEntity> getAdminOrders(HttpServletRequest request){
+    	
+    	TSUser tsUser = ResourceUtil.getSessionUser();
+    	
+    	List<SorderEntity> orders = systemService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
+    	
+    	List<SorderEntity> result = new ArrayList<SorderEntity>();
+    	
+    	for (SorderEntity sorderEntity : orders) {
+    		
+    		
+			if("待处理".equals(sorderEntity.getOrderStatus())){
+				result.add(sorderEntity);
+			}
+		}
+    	
+    	return result;
+    	
+    }
+    
+    @ResponseBody
+    @RequestMapping(params = "getOrderItems")
+    public List<SorderItemEntity> getOrderItems(HttpServletRequest request,String orderNum){
+    	
+    	List<SorderItemEntity> orderItems = sorderItemService.findByProperty(SorderItemEntity.class, "orderId", orderNum);
+    	
+    	return orderItems;
+    	
+    }
 
 }

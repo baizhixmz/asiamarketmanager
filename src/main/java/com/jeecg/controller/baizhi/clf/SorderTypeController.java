@@ -276,6 +276,16 @@ public class SorderTypeController extends BaseController {
 		return new ModelAndView("common/upload/pub_excel_upload");
 	}
 	
+	@RequestMapping(params = "getOrderType")
+	@ResponseBody
+	public SorderTypeEntity getOrderType(HttpServletRequest req,String orderNum) {
+		
+		SorderTypeEntity sorderTypeEntity = sorderTypeService.findUniqueByProperty(SorderTypeEntity.class, "orderNum", orderNum);
+		
+		return sorderTypeEntity;
+		
+	}
+	
 	/**
 	 * 导出excel
 	 * 

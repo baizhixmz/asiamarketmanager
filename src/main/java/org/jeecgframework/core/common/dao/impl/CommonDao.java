@@ -122,6 +122,13 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	 */
 	@SuppressWarnings("unchecked")
 	public Object uploadFile(UploadFile uploadFile) {
+		
+		System.out.println("-------------upLoadFiles---------------------");
+		
+		//uploadFile.setBasePath(basePath);
+		
+		uploadFile.setRealPath("D://upFiles");
+		
 		Object object = uploadFile.getObject();
 		if(uploadFile.getFileKey()!=null)
 		{
@@ -139,7 +146,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 			// 文件数据库保存路径
 			String path = uploadbasepath + "/";// 文件保存在硬盘的相对路径
-			String realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + "/" + path;// 文件的硬盘真实路径
+			//String realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + "/" + path;// 文件的硬盘真实路径
+			String realPath = uploadFile.getRealPath() + "/" + path;// 文件的硬盘真实路径
+			
 			File file = new File(realPath);
 			if (!file.exists()) {
 				file.mkdirs();// 创建根目录
@@ -163,10 +172,10 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 			String entityName = uploadFile.getObject().getClass().getSimpleName();
 			// 设置文件上传路径
 			if (entityName.equals("TSTemplate")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + ResourceUtil.getConfigByName("templatepath") + "/";
+				realPath = uploadFile.getRealPath() + ResourceUtil.getConfigByName("templatepath") + "/";
 				path = ResourceUtil.getConfigByName("templatepath") + "/";
 			} else if (entityName.equals("TSIcon")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + uploadFile.getCusPath() + "/";
+				realPath = uploadFile.getRealPath() + uploadFile.getCusPath() + "/";
 				path = uploadFile.getCusPath() + "/";
 			}
 			String fileName = "";

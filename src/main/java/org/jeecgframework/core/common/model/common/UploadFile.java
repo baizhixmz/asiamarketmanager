@@ -18,7 +18,7 @@ public class UploadFile {
 	private String byteField = "attachmentcontent";// 二进制文件内容保存到数据库的对应实体类字段
 	private String titleField = "attachmenttitle";// 文件名(标题)保存到数据库的对应实体类字段
 	private String basePath = "upload";// 文件保存目录根路径
-	private String realPath = "realpath";// 文件保存在硬盘的全路径对应实体字段
+	private String realPath = "/opt/tomcat/webapps";// 文件保存在硬盘的全路径对应实体字段
 	private String extend = "extend";// 扩展名
 	private boolean view = false;// 是否是预览
 	private boolean rename  =true;// 是否重命名

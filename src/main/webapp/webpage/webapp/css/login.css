@@ -1,0 +1,191 @@
+header {
+	height: 50px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #ccc;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #fff;
+	justify-content: center;
+}
+/* .left {
+	width: 14px;
+	height: 22px;
+	background-size: 14px 22px;
+	background-image: url("../img/icon_f.png");
+	margin-left: 20px;
+	-moz-transform: scalex(-1);
+	-webkit-transform: scalex(-1);
+	-o-transform: scalex(-1);
+	transform: scalex(-1);
+} */
+
+
+.left span {
+	font-size: 22px;
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+
+header .title {
+  	flex: 1;
+  	text-align: center;
+	font-size: 20px;
+}
+
+section {
+	margin: -10px 0px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.login {
+	padding-top: 150px;
+}
+
+.regeister {
+	padding-top: 60px;
+	margin: 0 !important;
+}
+
+section .title {
+	margin-top: 46px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+section .adv {
+	font-size: 18px;
+	margin: 20px 0px 52px;
+}
+
+.login-username,.login-pwd,.login-confirmPwd,.login-tel,.login-email,.login-code{
+	width: 80%;
+	height: 46px;
+	line-height: 46px;
+	border: 2px solid #d2d2d2;
+	border-radius: 6px;
+	margin: 0 auto;
+	background: #fff;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-top: 20px;
+	position: relative;
+}
+
+.iptUsername,.iptPwd,.iptConfirmPwd,.iptTel,.iptEmail,.iptCode {
+	width: 90%;
+	border: none;
+}
+
+.login-pwd {
+	margin-top: 24px;
+}
+
+.ico-email {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	background-image: url('../images/icon_ex_ay.png');
+	background-size: 22px 22px;
+	background-repeat: no-repeat;
+}
+
+.ico-username {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	background-image: url('../images/icon_ex_ay.png');
+	background-size: 22px 22px;
+	background-repeat: no-repeat;
+}
+
+.ico-lock {
+	display: inline-block;
+	width: 22px;
+	height: 25px;
+	background-image: url('../images/icon_password.png');
+	background-size: 22px 25px;
+	background-repeat: no-repeat;
+}
+
+.ico-tel {
+	display: inline-block;
+	width: 22px;
+	height: 25px;
+	background-image: url('../images/icon_tal.png');
+	background-size: 22px 25px;
+	background-repeat: no-repeat;
+}
+
+.ico-email {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-image: url('../images/icon_emaill.png');
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.runRegeister {
+	width: 80%;
+	margin-top: 10px;
+	font-size: 12px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: space-between;
+	margin: 10px auto;
+}
+
+.iptButton {
+	width: 80%;
+	background: orange;
+	height: 50px;
+	margin-top: 50px;
+	color: #fff;
+	border: none;
+	font-size: 18px;
+	border-radius: 10px;
+}
+
+.others {
+	width: 280px;
+	font-size: 16px;
+	margin: 40px auto;
+	line-height: 1.5;
+}
+
+
+section i {
+	display: block;
+	position: absolute;
+	bottom: -34px;
+	left: 0;
+	font-size: 12px;
+	color: red;
+}
+
+.login-code img {
+	margin-right: 1em;
+}
+
+

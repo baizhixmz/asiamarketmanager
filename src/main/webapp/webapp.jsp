@@ -20,7 +20,9 @@
 		<link rel="stylesheet" href="plug-in/webapp/css/cate.css">
 		<link rel="stylesheet" href="plug-in/audio/hint.css">
 		<link rel="stylesheet" href="plug-in/webapp/css/orderList.css">
+		<link rel="stylesheet" href="plug-in/webapp/js/layui/css/layui.css">
 		<script src="plug-in/webapp/js/lib/zepto.min.js"></script>
+		<script src="plug-in/webapp/js/orderList.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/smart-menu/jquery-smartMenu.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl.js"></script>
@@ -86,10 +88,7 @@
 		<!-- 头部 -->
 		<header>
 			<div class="left">
-				<a href="javascript:window.location.reload();">
-					<img src="plug-in/login/images/sp3_3.png" alt="">
-				</a>
-				
+				<img src="plug-in/login/images/sp3_3.png" alt="">
 			</div>
 			<div class="title">店铺订单</div>
 			
@@ -122,7 +121,11 @@
 				
 				
 				function playSound(){
-				     var borswer = window.navigator.userAgent.toLowerCase();
+					
+					var audio = new Audio("plug-in/audio/Order_Hint.mp3");
+					audio.play();
+					
+				     /* var borswer = window.navigator.userAgent.toLowerCase();
 				     if ( borswer.indexOf( "ie" ) >= 0 ){
 				       //IE内核浏览器
 				       var strEmbed = '<embed name="embedPlay" src="http://www.gongqinglin.com/accessory/ding.wav" autostart="true" hidden="true" loop="false"></embed>';
@@ -141,24 +144,26 @@
 
 				       //浏览器支持 audion
 				       audio.play();
-				     }
+				     } */
 				}
 				
 				function getOrder(url){
 					$("#ow").attr("src",url);
-					//document.getElementById('ow').contentWindow.location.reload(true);
 				}
 				
 			</script>
 			
 			<div class="right" style="margin-right: 30px;">
 				<li class="dropdown hidden-xs">
-					<a href="javascript:getOrder('sorderController.do?webapplist')">                             	
-				    	<i class="fa fa-bell" style="color:#EE6B6B"></i> 待办(<span id="view">0</span>)
-					</a> 
+				    <i class="fa fa-bell" style="color:#EE6B6B"></i> 待办(<span id="view">0</span>)
 				</li> 
 			</div>
+			
 		</header>	
-		 <iframe id="ow" src="sorderController.do?list" width="1200px" style="margin-top: 20px;"></iframe>
+		
+		<div id="cart-shop" class="cart-shop">
+		
+    	</div>
+		
 	</body>
 </html>

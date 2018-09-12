@@ -179,8 +179,6 @@ public class SproductController extends BaseController {
                 message = "商品表更新失败";
             }
         } else {
-            
-
                 //添加商品
                 Serializable productId = sproductService.save(sproduct);
                 //如果是普通管理员 添加关系
@@ -192,9 +190,8 @@ public class SproductController extends BaseController {
                 //添加关系
                 sadminProductServiceI.save(productEntity);
 
-            
-            message = "商品表添加成功";
-            systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+	            message = "商品表添加成功";
+	            systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
         j.setMsg(message);
         return j;
