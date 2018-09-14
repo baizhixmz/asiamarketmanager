@@ -209,8 +209,7 @@ function Login(orgId) {
 	});
 }
 //设置cookie
-function setCookie()
-{
+function setCookie(){
 	if ($('#on_off').val() == '1') {
 		$("input[iscookie='true']").each(function() {
 			$.cookie(this.name, $("#"+this.name).val(), "/",24);
@@ -224,8 +223,7 @@ function setCookie()
 	}
 }
 //读取cookie
-function getCookie()
-{
+function getCookie(){
 	var COOKIE_NAME=$.cookie("COOKIE_NAME");
 	if (COOKIE_NAME !=null) {
 		$("input[iscookie='true']").each(function() {

@@ -24,7 +24,7 @@
 				<td class="value"><input class="inputxt" type="hidden"
 					id="name" name="name" value='${sproductPage.name}' /> <input
 					class="inputxt" id="name_c" datatype="*2-50" '/>:中文&nbsp;&nbsp; <input
-					class="inputxt" id="name_g" />:德文 <span
+					class="inputxt" id="name_g" />:Deutsch <span
 					class="Validform_checktip"></span></td>
 			</tr>
 			<tr>
@@ -43,7 +43,7 @@
 					id="description" name="description" required="required"
 					value="${sproductPage.description}" /> <input class="inputxt"
 					id="description_c" datatype="*2-50" />:中文&nbsp;&nbsp; <input
-					class="inputxt" id="description_g" />:德文 <span
+					class="inputxt" id="description_g" />:Deutsch <span
 					class="Validform_checktip"></span></td>
 			</tr>
 			<tr>

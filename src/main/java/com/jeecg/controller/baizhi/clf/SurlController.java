@@ -1,11 +1,9 @@
 package com.jeecg.controller.baizhi.clf;
 import com.jeecg.entity.baizhi.clf.SurlEntity;
 import com.jeecg.service.baizhi.clf.SurlServiceI;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.hibernate.criterion.Restrictions;
+
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -27,12 +25,10 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
 import java.io.OutputStream;
-
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -43,17 +39,14 @@ import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.util.ResourceUtil;
-
 import java.io.IOException;
-
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import java.util.Map;
 import java.util.HashMap;
-
 import org.jeecgframework.core.util.ExceptionUtil;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,23 +58,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
-
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-
 import java.net.URI;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.jeecgframework.jwt.util.GsonUtil;
 import org.jeecgframework.jwt.util.ResponseMessage;
 import org.jeecgframework.jwt.util.Result;
-
 import com.alibaba.fastjson.JSONArray;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
@@ -91,7 +78,7 @@ import io.swagger.annotations.ApiParam;
  * @Title: Controller  
  * @Description: 店铺地址
  * @author onlineGenerator
- * @date 2018-08-21 08:59:20
+ * @date 2018-09-13 15:49:57
  * @version V1.0   
  *
  */
@@ -134,13 +121,7 @@ public class SurlController extends BaseController {
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(SurlEntity surl,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		
 		CriteriaQuery cq = new CriteriaQuery(SurlEntity.class, dataGrid);
-		
-		TSUser user = ResourceUtil.getSessionUser();
-		
-		
-		
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, surl, request.getParameterMap());
 		try{
@@ -148,10 +129,7 @@ public class SurlController extends BaseController {
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
-		if(!(user.getUserName().equals("SuperAdmin")||user.getUserName().equals("sadmin")))
-			cq.add(Restrictions.eq("adminId", user.getId()));
-		else
-			cq.add();
+		cq.add();
 		this.surlService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -185,7 +163,7 @@ public class SurlController extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "doBatchDel")
+	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
 		String message = null;
@@ -280,8 +258,6 @@ public class SurlController extends BaseController {
 	 */
 	@RequestMapping(params = "goUpdate")
 	public ModelAndView goUpdate(SurlEntity surl, HttpServletRequest req) {
-		
-		
 		if (StringUtil.isNotEmpty(surl.getId())) {
 			surl = surlService.getEntity(SurlEntity.class, surl.getId());
 			req.setAttribute("surlPage", surl);
@@ -289,7 +265,19 @@ public class SurlController extends BaseController {
 		return new ModelAndView("com/jeecg/baizhi.clf/surl-update");
 	}
 	
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(params = "findByUrl")
+	@ResponseBody
+	public SurlEntity findByUrl(String url,HttpServletRequest req) {
+		
+		return surlService.findUniqueByProperty(SurlEntity.class, "url", url);	
 	
+	
+	}
 	
 	/**
 	 * 导入功能跳转
@@ -451,11 +439,4 @@ public class SurlController extends BaseController {
 
 		return Result.success();
 	}
-	
-	@RequestMapping(params = "getByAdmin")
-	public ModelAndView adminList(HttpServletRequest request) {
-		return new ModelAndView("com/jeecg/baizhi.clf/surlList");
-	}
-	
-	
 }
