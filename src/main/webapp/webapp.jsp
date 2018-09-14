@@ -122,6 +122,8 @@
 				
 				function playSound(){
 					
+				
+					
 					var audio = new Audio("plug-in/audio/Order_Hint.mp3");
 					audio.play();
 					
