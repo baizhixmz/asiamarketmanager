@@ -406,6 +406,18 @@ public class SorderController extends BaseController {
         }
         sorderService.saveOrUpdate(sorder);
     }
+    
+    @RequestMapping(params = "changeStatus1")
+    @ResponseBody
+    public void changeStatus1(SorderEntity sorder, HttpServletRequest request) {
+        String status = sorder.getOrderStatus();
+        
+
+        sorder.setOrderStatus("已取消");
+
+        
+        sorderService.saveOrUpdate(sorder);
+    }
 
     @RequestMapping(params = "exportXls")
     //导出订单数据

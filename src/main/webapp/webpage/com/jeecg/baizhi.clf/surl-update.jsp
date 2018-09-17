@@ -30,7 +30,7 @@
 						</td>
 						<td class="value">
 						    <input id="url1" name="url1" type="text" ourl="${surlPage.url}" style="width: 150px" class="inputxt" datatype="update" ignore="checked" /> 
-						    <input id="url" name="url" type="text" style="width: 150px" class="inputxt" readonly="readonly"  datatype="update"  ignore="checked"  value='${surlPage.url}'/>
+						    <input id="url" name="url" type="text" style="width: 150px" class="inputxt" readonly="readonly" ignore="checked"  value='${surlPage.url}'/>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">店铺地址</label>
 						</td>
