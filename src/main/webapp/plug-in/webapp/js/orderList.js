@@ -59,7 +59,7 @@ $(function(){
 											                    <div class="option">
 											                        <div class="pull-left">
 											                    		<p class="price">商品单价：€ <b>${GoodsEle.price}</b></p>
-											                            <span class="num">购买数量：<b>${GoodsEle.count}</b></span>
+											                            <span>购买数量：<b>${GoodsEle.count}</b></span>
 											                        </div>
 											                    </div>
 											                </div>
@@ -72,7 +72,7 @@ $(function(){
 								var orderListFooterStr = `<div class="orderListFooter">
 												        	<div style="float:left;">
 												        		收/取件人：<span class="totalNum">${orderType.name}</span><br/>
-												        		联系方式：${orderType.phone}
+												        		联系方式：<a href="tel:${orderType.phone}">${orderType.phone}</a>
 												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">确认订单</a></button>
 												        	</div>
 												        	

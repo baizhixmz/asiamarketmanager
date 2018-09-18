@@ -4,20 +4,19 @@
 
 <div class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="sproductList" title="商品/La Merce" actionUrl="sproductController.do?findProductByAdmin" idField="id" fit="true">
+        <t:datagrid name="sproductList" fitColumns="false" title="商品/La Merce" actionUrl="sproductController.do?findProductByAdmin" idField="id" fit="true">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
-            <t:dgCol title="商品标题/Ware Titel" field="name" width="120"></t:dgCol>
-            <t:dgCol title="商品描述/Beschreibung der ware" field="description" width="120"></t:dgCol>
+            <t:dgCol title="商品标题/Ware Titel" field="name" width="140"></t:dgCol>
+            <t:dgCol title="商品描述/Produktbeschreibung" field="description" width="180"></t:dgCol>
             <t:dgCol title="商品编号/Ware Nr" field="productNum" width="120" query="true"></t:dgCol>
-            <t:dgCol title="商品价格/Die rohstoffpreise" field="price" width="120"></t:dgCol>
-            <t:dgCol title="中文单位/Chinesische einheiten" field="chinaUnit" width="120"></t:dgCol>
-            <t:dgCol title="德国单位/Deutsche Einheit" field="italyUnit" width="120"></t:dgCol>
-            <t:dgCol title="商品主图/Die im Bild" field="imgsrc" image="true"  imageSize="120,80" width="120"></t:dgCol>
-            <t:dgCol title="类别外键/Kategorie Fremdschlüssel" field="categoryId" width="120"></t:dgCol>
-            <t:dgCol title="类别名字/Kategorie Name" field="categoryName" width="120"></t:dgCol>
-            <%-- <t:dgCol title="来源/Quelle" field="source" width="120"></t:dgCol> --%>
+            <t:dgCol title="商品价格/Die rohstoffpreise" field="price" width="170"></t:dgCol>
+            <t:dgCol title="中文单位/Chinesische Einheit" field="chinaUnit" width="180"></t:dgCol>
+            <t:dgCol title="德国单位/Deutsche Einheit" field="italyUnit" width="170"></t:dgCol>
+            <t:dgCol title="商品主图/Die im Bild" field="imgsrc" image="true"  imageSize="140,80" width="140"></t:dgCol>
+            <%-- <t:dgCol title="类别外键/Kategorie Fremdschlüssel" field="categoryId" width="120"></t:dgCol> --%>
+            <t:dgCol title="类别/Kategorie" field="categoryName" width="100"></t:dgCol>
             <t:dgCol title="商品内容/Produkt Inhalt" field="content" width="120" hidden="true"></t:dgCol>
-            <t:dgCol title="操作/Bedienung" field="opt" width="100"></t:dgCol>
+            <t:dgCol title="操作/Bedienung" field="opt" width="120"></t:dgCol>
             <t:dgDelOpt title="删除/Löschen" url="sproductController.do?del&id={id}" urlclass="ace_button" urlfont="fa-trash-o"/>
             <t:dgToolBar title="添加新的商品/Neuen Artikel hinzufügen" icon="icon-add" url="sproductController.do?addorupdate" funname="add" width="770"
                          height="500"></t:dgToolBar>

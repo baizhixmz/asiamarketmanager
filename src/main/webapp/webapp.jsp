@@ -6,6 +6,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=yes"/>
 		<meta name="viewport"
 			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 		<title>订单页面</title>
@@ -92,7 +93,7 @@
 			</div>
 			<div class="title">店铺订单</div>
 			
-			<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); System.out.println(u.getUserName()+";id="+u.getId()+";"+u.getCurrentDepart().getId());%> 
+			<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER");%> 
 			
 			<script type="text/javascript"> 
 				

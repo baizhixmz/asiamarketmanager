@@ -5,12 +5,12 @@
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="scategoryList" title="类别表" actionUrl="scategoryController.do?findCategoryByAdminId" idField="id" fit="true">
    <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
-   <t:dgCol title="类别名字" field="name"   width="120"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-   <t:dgDelOpt title="删除" url="scategoryController.do?del&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
-   <t:dgToolBar title="录入" icon="icon-add" url="scategoryController.do?addorupdate" funname="add"></t:dgToolBar>
-   <t:dgToolBar title="编辑" icon="icon-edit" url="scategoryController.do?goUpdate" funname="update"></t:dgToolBar>
-   <t:dgToolBar title="查看" icon="icon-search" url="scategoryController.do?addorupdate" funname="detail"></t:dgToolBar>
+   <t:dgCol title="类别名称/Kategoriename" field="name"   width="120"></t:dgCol>
+   <t:dgCol title="操作/Bedienung" field="opt" width="100"></t:dgCol>
+   <t:dgDelOpt title="删除/Löschen" url="scategoryController.do?del&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
+   <t:dgToolBar title="录入/Eintrag" icon="icon-add" url="scategoryController.do?addorupdate" funname="add"></t:dgToolBar>
+   <t:dgToolBar title="编辑/Bearbeiten" icon="icon-edit" url="scategoryController.do?goUpdate" funname="update"></t:dgToolBar>
+   <t:dgToolBar title="查看/Ansicht" icon="icon-search" url="scategoryController.do?addorupdate" funname="detail"></t:dgToolBar>
   </t:datagrid>
   </div>
  </div>

@@ -148,8 +148,9 @@ function Login(orgId) {
 		success : function(data) {
 			var flag = IsPC();
 			
+			console.log(data);
+			
 			console.log("isPC:"+flag);
-			if(!flag){
 				var d = $.parseJSON(data);
 				if (d.success) {
 					loginsuccess();
@@ -189,7 +190,11 @@ function Login(orgId) {
 	                        }
 	                    });
 	                } else {
-	                    setTimeout("window.location.href='"+actionurl+"'", 1000);
+	                	if(!flag){
+	                		setTimeout("window.location.href='"+actionurl+"'", 1000);
+	                	}else{
+	                		window.location.href = "webapp.jsp"
+	                	}
 	                }
 	
 				} else {
@@ -202,9 +207,6 @@ function Login(orgId) {
 					} else
 						showError(d.msg);
 				}
-			}else{
-				window.location.href = "webapp.jsp"
-			}
 		}
 	});
 }
