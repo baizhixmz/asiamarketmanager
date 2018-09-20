@@ -11,19 +11,68 @@
 
 <html>
 <head>
-<title>Shop-Manager</title>
+	<title>Shop-Manager</title>
     <link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/plug-in/teemlink/css/login.css" 	type="text/css" />
     <script src=<%=langurl%> type="text/javascript"></script>
-    <!--[if lt IE 9]>
-    <script src="plug-in/login/js/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 7]>
-    <script src="plug-in/login/js/iepng.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        EvPNG.fix('div, ul, img, li, input'); //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
-    </script>
-    <![endif]-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/plug-in/teemlink/css/login.css" 	type="text/css" />
+    <script type="text/javascript" src="plug-in/jQueryYdtc/js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript">
+	
+		$(function(){
+			
+			var f = IsPC();
+			if(f){
+				console.log("isPC:"+f)
+				var user = '${sessionScope.LOCAL_CLINET_USER}';
+				console.log(user == "");
+				if(user == "" ){
+					var username = $.cookie("ADMINUSERNAME");
+					var password = $.cookie("ADMINPASSWORD");
+					
+					if(username != null && password !=null){
+						$.ajax({
+							 type: "POST",
+				             url: "loginController.do?cookieLogin",
+				             data: {username:username,password:password},
+				             dataType: "json",
+				             success: function(data){
+				            	 
+				            	 if(data == "success"){
+				            		 window.location.reload();
+				            	 }
+				             }
+						});
+					}
+				}
+			}
+			
+			
+			
+		})
+		
+		function IsPC() {
+			var flag = true;
+			var sUserAgent = navigator.userAgent.toLowerCase();
+			var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+			var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+			var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+			var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+			var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+			var bIsAndroid = sUserAgent.match(/android/i) == "android";
+			var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+			var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+			if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+				//跳转移动端页面
+				flag = true;
+			} else {
+				//跳转pc端页面
+				flag = false;
+			}
+			return flag;
+		}
+			
+	
+	</script>    
 </head>
 <body >
 

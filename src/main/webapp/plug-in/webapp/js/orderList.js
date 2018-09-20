@@ -69,13 +69,15 @@ $(function(){
 									$(".orderListHeader").last().after(orderListContentrStr);
 								});
 								
-								var orderListFooterStr = `<div class="orderListFooter">
-												        	<div style="float:left;">
-												        		收/取件人：<span class="totalNum">${orderType.name}</span><br/>
-												        		联系方式：<a href="tel:${orderType.phone}">${orderType.phone}</a>
+								var orderListFooterStr = `<div style="height:53px;">
+												        	<div style="margin:5px;">
+												        		收/取件人：<span class="totalNum">${orderType.name}</span>
+												        		联系方式：<a href="tel:${orderType.phone}" style="color:#668BB0;">${orderType.phone}</a>
+												        	</div>
+												        	<div align="center" style="margin:5px;">
+												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="cancelOrder(this);">取消订单</a></button>
 												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">确认订单</a></button>
 												        	</div>
-												        	
 												        </div>`;
 
 					        	$(".item .cart-shop-content").last().after(orderListFooterStr);
@@ -106,6 +108,42 @@ function changeStatus(obj){
 			location.reload();   
 		}
 	});
+	
+	
+}
+function cancelOrder(obj){
+	
+	
+	var setTitle = '';
+	var setContents = '';
+	var setButton = '';
+	
+		
+	setTitle = '提示';
+	setContents = '您确定要取消该订单吗？';
+	setButton = '["取消","确定"]';
+	$(obj).openWindow(setTitle,setContents,setButton);
+	
+	var thisObj = $(obj);
+	
+	var orderId = thisObj.attr("id");
+	
+	$('.confirm-button').on('click',function(){
+		$.ajax({
+			url: 'sorderController.do?cancelOrderById',
+			type: 'POST',
+			dataType: 'JSON',
+			data:{id:orderId},
+			async: false,
+			success:function(data){
+				
+				location.reload();   
+			}
+		});
+	});
+	
+	
+	
 	
 	
 }

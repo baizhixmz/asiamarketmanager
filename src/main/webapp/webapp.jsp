@@ -22,13 +22,16 @@
 		<link rel="stylesheet" href="plug-in/audio/hint.css">
 		<link rel="stylesheet" href="plug-in/webapp/css/orderList.css">
 		<link rel="stylesheet" href="plug-in/webapp/js/layui/css/layui.css">
+		<link rel="stylesheet" href="plug-in/jQueryYdtc/css/global.css">
+		<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
 		<script src="plug-in/webapp/js/lib/zepto.min.js"></script>
 		<script src="plug-in/webapp/js/orderList.js"></script>
-		<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/smart-menu/jquery-smartMenu.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl-util.js"></script>
 		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script src="plug-in/jQueryYdtc/js/windowOpen.js"></script>
+		
 		<style>
 			.addOne {
 				display: inline-block;
@@ -74,8 +77,6 @@
 				overflow-y: hidden;
 				white-space: nowrap;
 				width: 270px;
-				
-				/* margin-left: 10px; */
 			}
 			
 			#scroll_begin,#scroll_end {
@@ -89,23 +90,63 @@
 		<!-- 头部 -->
 		<header>
 			<div class="left">
-				<img src="plug-in/login/images/sp3_3.png" alt="">
+				<span id="name1"></span><br/>
+				<span id="name2"></span>
 			</div>
 			<div class="title">店铺订单</div>
 			
-			<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER");%> 
 			
 			<script type="text/javascript"> 
 				
 				$(function(){
-					setInterval(showNum,1000);
+					var user = '${sessionScope.LOCAL_CLINET_USER}';
+					console.log(user == "");
+					if(user == "" ){
+						
+						var username = getCookie("ADMINUSERNAME");
+						console.log(username);
+						var password = getCookie("ADMINPASSWORD");
+						console.log(password)
+						
+						if(username != null && password !=null){
+							$.ajax({
+								 type: "POST",
+					             url: "loginController.do?cookieLogin",
+					             data: {username:username,password:password},
+					             dataType: "json",
+					             success: function(data){
+					            	 
+					            	 console.log(data);
+					            	 
+					            	 if(data == "success"){
+					            		 
+					            		 window.location.reload();
+					            	 }
+					            	 else
+					            		window.location.href = "loginController.do?login";
+					             }
+							});
+						}
+					}else{
+						setInterval(showNum,1000);
+						$.ajax({
+				             type: "POST",
+				             url: "surlController.do?findById",
+				             data: {adminId:'${sessionScope.LOCAL_CLINET_USER.id}'},
+				             dataType: "json",
+				             success: function(data){
+				             	$("#name1").html(data.name1);
+				             	$("#name2").html(data.name2);
+				             }
+				         });
+					}	
 				});
 				
 				function showNum(){
 					 $.ajax({
 			             type: "POST",
 			             url: "sproductController.do?getCount",
-			             data: {id:"<%=u.getId() %>"},
+			             data: {id:'${sessionScope.LOCAL_CLINET_USER.id}'},
 			             dataType: "json",
 			             success: function(data){
 			             	
@@ -128,37 +169,37 @@
 					var audio = new Audio("plug-in/audio/Order_Hint.mp3");
 					audio.play();
 					
-				     /* var borswer = window.navigator.userAgent.toLowerCase();
-				     if ( borswer.indexOf( "ie" ) >= 0 ){
-				       //IE内核浏览器
-				       var strEmbed = '<embed name="embedPlay" src="http://www.gongqinglin.com/accessory/ding.wav" autostart="true" hidden="true" loop="false"></embed>';
-				       if ( $( "body" ).find( "embed" ).length <= 0 )
-				         $( "body" ).append( strEmbed );
-				       var embed = document.embedPlay;
-
-				       //浏览器不支持 audion，则使用 embed 播放
-				       embed.volume = 100;
-				     } else{
-				       //非IE内核浏览器 
-				       var strAudio = "<audio id='audioPlay' hidden='true'><source src='plug-in/audio/Order_Hint.mp3' type='audio/mpeg'></audio>";
-				       if ( $( "body" ).find( "audio" ).length <= 0 )
-				         $( "body" ).append( strAudio );
-				       var audio = document.getElementById( "audioPlay" );
-
-				       //浏览器支持 audion
-				       audio.play();
-				     } */
+				     
 				}
 				
 				function getOrder(url){
 					$("#ow").attr("src",url);
 				}
 				
+				//通过name获取cookie
+				function getCookie(Name) {
+					var search = Name + "="//查询检索的值
+					var returnvalue = "";//返回值
+					if (document.cookie.length > 0) {
+						sd = document.cookie.indexOf(search);
+						if (sd!= -1) {
+							sd += search.length;
+							end = document.cookie.indexOf(";", sd);
+							if (end == -1)
+								end = document.cookie.length;
+					        //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+							returnvalue = unescape(document.cookie.substring(sd, end))
+						}
+					} 
+					return returnvalue;
+				}
+				
 			</script>
 			
 			<div class="right" style="margin-right: 30px;">
 				<li class="dropdown hidden-xs">
-				    <i class="fa fa-bell" style="color:#EE6B6B"></i> 待办(<span id="view">0</span>)
+				    <i class="fa fa-bell" style="color:#EE6B6B;"></i> 待办(<span id="view">0</span>)&nbsp;
+				    <!-- <a href="#" style="color:#EE6B6B;font-size: 10px;">注销</a> -->
 				</li> 
 			</div>
 			

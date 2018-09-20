@@ -176,6 +176,7 @@ public class SorderController extends BaseController {
 
         TagUtil.datagrid(response, dataGrid, extMap);
     }
+    
     @RequestMapping(params = "datagridWebapp")
     @ResponseBody
     public void datagridWebapp(SorderEntity sorder, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -232,6 +233,8 @@ public class SorderController extends BaseController {
     	
     	TagUtil.datagrid(response, dataGrid, extMap);
     }
+
+   
 
     /**
      * 删除订单表
@@ -407,9 +410,9 @@ public class SorderController extends BaseController {
         sorderService.saveOrUpdate(sorder);
     }
     
-    @RequestMapping(params = "changeStatus1")
+    @RequestMapping(params = "cancelOrder")
     @ResponseBody
-    public void changeStatus1(SorderEntity sorder, HttpServletRequest request) {
+    public void cancelOrder(SorderEntity sorder, HttpServletRequest request) {
         String status = sorder.getOrderStatus();
         
 
@@ -418,6 +421,23 @@ public class SorderController extends BaseController {
         
         sorderService.saveOrUpdate(sorder);
     }
+    
+    @RequestMapping(params = "cancelOrderById")
+    @ResponseBody
+    public String cancelOrderById(String id, HttpServletRequest request) {
+    	
+    	SorderEntity sorder = sorderService.findUniqueByProperty(SorderEntity.class, "id", id);
+    	
+    	
+    	sorder.setOrderStatus("已取消");
+    	
+    	
+    	sorderService.saveOrUpdate(sorder);
+    	
+    	return "success";
+    }
+    
+    
 
     @RequestMapping(params = "exportXls")
     //导出订单数据
@@ -566,7 +586,7 @@ public class SorderController extends BaseController {
     @RequestMapping(params = "getAdminOrders")
     public List<SorderEntity> getAdminOrders(HttpServletRequest request){
     	
-    	TSUser tsUser = ResourceUtil.getSessionUser();
+    	TSUser tsUser = (TSUser)request.getSession().getAttribute(ResourceUtil.LOCAL_CLINET_USER);
     	
     	List<SorderEntity> orders = systemService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
     	
@@ -591,6 +611,16 @@ public class SorderController extends BaseController {
     	List<SorderItemEntity> orderItems = sorderItemService.findByProperty(SorderItemEntity.class, "orderId", orderNum);
     	
     	return orderItems;
+    	
+    }
+    
+    @ResponseBody
+    @RequestMapping(params = "getOrderById")
+    public SorderEntity getOrderById(HttpServletRequest request,String id){
+    	
+    	SorderEntity order = sorderService.findUniqueByProperty(SorderEntity.class, "id", id);
+    	
+    	return order;
     	
     }
 

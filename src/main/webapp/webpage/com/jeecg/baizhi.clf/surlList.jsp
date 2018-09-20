@@ -13,7 +13,7 @@
    <t:dgCol title="最低包邮价格/Mindestpreis"  field="minPrice"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="操作/Bedienung" field="opt" width="100"></t:dgCol>
    <c:choose>
-		<c:when test="${sessionScope.LOCAL_CLINET_USER.userName == 'SuperAdmin' || sessionScope.LOCAL_CLINET_USER.userName == 'sadmin'}">
+		<c:when test="${sessionScope.LOCAL_CLINET_USER.userKey == '后台管理员'}">
 	   		<t:dgDelOpt title="删除/Löschen" url="surlController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
 	   		<t:dgToolBar title="录入/Eintrag" icon="icon-add" url="surlController.do?goAdd" funname="add"></t:dgToolBar>
    		</c:when>
@@ -26,6 +26,12 @@
  <script src = "webpage/com/jeecg/baizhi.clf/surlList.js"></script>		
  <script type="text/javascript">
  $(document).ready(function(){
+	 
+	 var userKey = '${sessionScope.LOCAL_CLINET_USER.userKey}';
+	 if(userKey == "店长"){
+		 $("#searchColums").hide();
+	 }
+	 
  });
  
    

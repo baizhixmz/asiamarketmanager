@@ -5,22 +5,23 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="sorderListWebapp" pagination="false" title="未处理订单" actionUrl="sorderController.do?datagridWebapp" idField="id" queryMode="group" fit="true">
+        <t:datagrid name="sorderListWebapp" fitColumns="false" pagination="false" title="未处理订单" actionUrl="sorderController.do?datagridWebapp" idField="id" queryMode="group" fit="true">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="userId" hidden="true"></t:dgCol>
             <t:dgCol title="编号" field="adminId" hidden="true"></t:dgCol>
-            <t:dgCol title="订单编号" field="orderNum" width="120" query="true"></t:dgCol>
-            <t:dgCol title="订单状态" field="orderStatus" width="60"></t:dgCol>
-            <t:dgCol title="收件人/取件人" field="userMsg" width="120"></t:dgCol>
-            <t:dgCol title="联系电话" field="phone" width="120"></t:dgCol>
-            <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-            <t:dgFunOpt title="更改状态" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
+            <t:dgCol title="订单编号/Bestellnummer" field="orderNum" width="180" query="true"></t:dgCol>
+            <t:dgCol title="订单状态/Bestellstatus" field="orderStatus" width="180"></t:dgCol>
+            <t:dgCol title="收(取)件人/Empfänger" field="userMsg" width="160"></t:dgCol>
+            <t:dgCol title="联系电话/Kontaktnummer" field="phone" width="180"></t:dgCol>
+            <t:dgCol title="操作/Bedienung" field="opt" width="300"></t:dgCol>
+            <t:dgFunOpt title="确认订单/bestätigen" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
+            <t:dgFunOpt title="取消订单/stornieren" funname="changeStatus1" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
             <t:dgToolBar title="查看订单详情" icon="icon-search" url="sorderController.do?openOrderItem"
                          funname="openOrderItem" width="700" height="400"></t:dgToolBar>
         </t:datagrid>
     </div>
 </div>
-<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); System.out.println(u.getUserName()+";id="+u.getId()+";"+u.getCurrentDepart().getId());%> 
+<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); %> 
 <script>
     function changeStatus(data,data2,data3,data4) {
         var row = $("#sorderListWebapp").datagrid("getSelected");
@@ -39,6 +40,27 @@
         
     }
     
+    
+    function changeStatus1(data,data2,data3,data4) {
+        var row = $('#sorderListWebapp').datagrid('getSelected');
+        if(row == null) {
+            alert("请先选中行！");
+            return ;
+        }
+        
+        if(row.orderStatus == "已处理"){
+        	alert("订单已处理，无法取消！");
+        }else{
+        	$.ajax({
+                url:"${pageContext.request.contextPath}/sorderController.do?cancelOrder",
+                data:row,
+                success:function(){
+                    $("#sorderListWebapp").datagrid("reload");
+            	}
+        	})
+        }
+        
+    }
     
 </script>
 <script type="text/javascript">

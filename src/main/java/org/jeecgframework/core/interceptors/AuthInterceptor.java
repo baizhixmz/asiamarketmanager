@@ -115,7 +115,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 		String requestPath = ResourceUtil.getRequestPath(request);// 用户访问的资源地址
 		//logger.info("-----authInterceptor----requestPath------"+requestPath);
 		//步骤一： 判断是否是排除拦截请求，直接返回TRUE
-
+		
+		if("loginController.do?cookieLogin".equals(requestPath)){
+			return true;
+		}
+		
+		
 		if (requestPath.length()>3&&"api/".equals(requestPath.substring(0,4))) {
 			return true;
 		}

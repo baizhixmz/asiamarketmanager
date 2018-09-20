@@ -114,6 +114,7 @@
 	    bottom: -1px;
 		display: block;
 	    height: 3px;
+
 	    background-color: #007465; /* #007465; */
 	    -webkit-transition: width .3s,left .3s;
 	    transition: width .3s,left .3s;
@@ -128,7 +129,59 @@
 		}*/
 	</style>
 	<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
-	
+	<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); System.out.println(u.getUserName()+";id="+u.getId()+";"+u.getCurrentDepart().getId());%> 
+			
+	<script type="text/javascript"> 
+				
+		$(function(){
+			var f = IsPC();
+			console.log("是否为PC:"+f);
+			if(!f){
+				window.location.href = "webapp.jsp";
+			}
+			setInterval(showNum,1000);
+		});
+				
+		function showNum(){
+			$.ajax({
+				type: "POST",
+			    url: "sproductController.do?getCount",
+			    data: {id:"<%=u.getId() %>"},
+			    dataType: "json",
+			    success: function(data){
+			             	
+			    	if(data > $("#view").text()){
+			    		playSound();
+			    		document.getElementById("view").innerHTML=data;
+			    	}else{
+			        	document.getElementById("view").innerHTML=data;			             		
+			        }
+			             	
+			     }
+			 });
+		}
+				
+		function IsPC() {
+			var flag = true;
+			var sUserAgent = navigator.userAgent.toLowerCase();
+			var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+			var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+			var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+			var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+			var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+			var bIsAndroid = sUserAgent.match(/android/i) == "android";
+			var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+			var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+			if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+			return flag;
+		}
+
+				
+	</script>
 </head>
 <body style="overflow-y:hidden;">
 	<div class="layout-admin">
@@ -154,64 +207,6 @@
 				</a> 
 			</li> 
 			
-			<% TSUser u = (TSUser) session.getAttribute("LOCAL_CLINET_USER"); System.out.println(u.getUserName()+";id="+u.getId()+";"+u.getCurrentDepart().getId());%> 
-			
-			<script type="text/javascript"> 
-				
-				$(function(){
-					var f = IsPC();
-					console.log("是否为PC:"+f);
-					if(!f){
-						window.location.href = "webapp.jsp";
-					}
-					setInterval(showNum,1000);
-				});
-				
-				function showNum(){
-					 $.ajax({
-			             type: "POST",
-			             url: "sproductController.do?getCount",
-			             data: {id:"<%=u.getId() %>"},
-			             dataType: "json",
-			             success: function(data){
-			             	/* console.log(data);
-			             	console.log($("#view").text()); */
-			             	if(data > $("#view").text()){
-			             		playSound();
-			             		document.getElementById("view").innerHTML=data;
-			             	}else{
-			             		document.getElementById("view").innerHTML=data;			             		
-			             	}
-			             	
-			             }
-			         });
-				}
-				
-				function IsPC() {
-					var flag = true;
-					var sUserAgent = navigator.userAgent.toLowerCase();
-				    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-				    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-				    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-				    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-				    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-				    var bIsAndroid = sUserAgent.match(/android/i) == "android";
-				    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-				    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-				    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-				        //跳转移动端页面
-				        flag = true;
-				    	//window.location.href="http://f.jcngame.com/fanfan20171208/mobile/index.html";
-				    } else {
-				        //跳转pc端页面
-				    	flag = false;
-				    	//window.location.href="http://f.jcngame.com/fanfan20171208//fanmai/index.html";
-				    }
-					return flag;
-				}
-
-				
-			</script>
 			
 			<li class="header-bar-nav personInfo" style="cursor:pointer;"> 
 				<i class="icon-font">&#xe751;</i>&nbsp;
@@ -221,9 +216,7 @@
 					<li>
 	                         <a href="javascript:openwindow('系统信息','tSSmsController.do?getSysInfos')" title="系统信息">系统信息</a>
 					</li>
-					<li >
-	                         <a href="javascript:window.open('http://lu-food.com/netShoppp/shop002')" title="进入店铺">进入店铺</a>
-					</li>
+					
 					<li><a href="javascript:clearLocalstorage()"><t:mutiLang langKey="common.clear.localstorage"/></a></li>
 				</ul>
 			</li> 
@@ -262,6 +255,8 @@
 		<script type="text/javascript" src="plug-in/themes/fineui/smart-menu/jquery-smartMenu.js"></script>
 		<script type="text/javascript" src="https://cdn-hangzhou.goeasy.io/goeasy.js"></script>
 		<script type="text/javascript">
+			
+		
 			var goEasy = new GoEasy({
 				appkey: "BC-57c75abca21540b89bf00e84e5d7c7f6"
 			});
@@ -273,6 +268,9 @@
 					//alert(message.content);
 				}
 			});
+			
+			
+			
 			
 			function playSound(){
 			     var borswer = window.navigator.userAgent.toLowerCase();

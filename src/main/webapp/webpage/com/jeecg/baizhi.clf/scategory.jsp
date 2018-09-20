@@ -19,7 +19,7 @@
 					<td class="value">
 						<input class="inputxt" id="name" type="hidden" name="name"  value="${scategoryPage.name}" />
 						<input class="inputxt" id="name_c"  datatype="*2-50" />:中文&nbsp;&nbsp;
-                        <input class="inputxt" id="name_g"  />:德文
+                        <input class="inputxt" id="name_g"  />:Deutsch
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>

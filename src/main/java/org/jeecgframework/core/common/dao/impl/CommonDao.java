@@ -73,11 +73,11 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	 * 检查用户是否存在
 	 * */
 	public TSUser findUserByAccountAndPassword(String username,String inpassword) {
-		String password = PasswordUtil.encrypt(username, inpassword, PasswordUtil.getStaticSalt());
+		//String password = PasswordUtil.encrypt(username, inpassword, PasswordUtil.getStaticSalt());
 		String query = "from TSUser u where u.userName = :username and u.password=:passowrd";
 		Query queryObject = getSession().createQuery(query);
 		queryObject.setParameter("username", username);
-		queryObject.setParameter("passowrd", password);
+		queryObject.setParameter("passowrd", inpassword);
 		@SuppressWarnings("unchecked")
 		List<TSUser> users = queryObject.list();
 		if (users != null && users.size() > 0) {

@@ -17,10 +17,10 @@
             <t:dgCol title="联系电话/Kontaktnummer" field="phone" width="160"></t:dgCol>
             <t:dgCol title="收货地址/Empfangsadresse" field="orderAddress" width="180"></t:dgCol>
             <t:dgCol title="取货时间/Abholzeit" field="qTime" width="140"></t:dgCol>
-            <t:dgCol title="操作/Bedienung" field="opt" width="280"></t:dgCol>
+            <t:dgCol title="操作/Bedienung" field="opt" width="400"></t:dgCol>
             <t:dgDelOpt title="删除/Löschen" url="sorderController.do?del&id={id}" urlclass="ace_button" urlfont="fa-trash-o"/>
-            <t:dgFunOpt title="更改状态" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
-            <t:dgFunOpt title="取消订单" funname="changeStatus1" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
+            <t:dgFunOpt title="确认订单/bestätigen" funname="changeStatus" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
+            <t:dgFunOpt title="取消订单/stornieren" funname="changeStatus1" urlclass="ace_button"  urlfont="fa-check"></t:dgFunOpt>
             <t:dgToolBar title="查看订单详情" icon="icon-search" url="sorderController.do?openOrderItem"
                          funname="openOrderItem" width="700" height="400"></t:dgToolBar>
             <t:dgToolBar title="导出订单详情" icon="icon-putout" funname="ExportXls" operationCode="exportXls"></t:dgToolBar>
@@ -41,8 +41,9 @@
 
         if(row.orderStatus == "已取消"){
         	alert("订单已取消！");
-        }else{
-        	
+        }else if(row.orderStatus == "已处理"){
+        	alert("订单已处理！")
+        }else{	
 	        $.ajax({
 	            url:"${pageContext.request.contextPath}/sorderController.do?changeStatus",
 	            data:row,
@@ -67,7 +68,7 @@
         	alert("订单已处理，无法取消！");
         }else{
         	$.ajax({
-                url:"${pageContext.request.contextPath}/sorderController.do?changeStatus1",
+                url:"${pageContext.request.contextPath}/sorderController.do?cancelOrder",
                 data:row,
                 success:function(){
                     $("#sorderList").datagrid("reload");

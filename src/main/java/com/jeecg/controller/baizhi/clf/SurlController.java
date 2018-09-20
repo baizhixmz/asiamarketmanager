@@ -296,6 +296,16 @@ public class SurlController extends BaseController {
 	
 	}
 	
+	
+	@RequestMapping(params = "findById")
+	@ResponseBody
+	public SurlEntity findById(String adminId,HttpServletRequest req) {
+		
+		
+		return surlService.findUniqueByProperty(SurlEntity.class, "adminId", adminId);	
+	
+	}
+	
 	/**
 	 * 导入功能跳转
 	 * 

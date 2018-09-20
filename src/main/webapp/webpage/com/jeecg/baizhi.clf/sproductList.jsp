@@ -4,7 +4,7 @@
 
 <div class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="sproductList" fitColumns="false" title="商品/La Merce" actionUrl="sproductController.do?findProductByAdmin" idField="id" fit="true">
+        <t:datagrid name="sproductList" fitColumns="false" title="商品/Waren" actionUrl="sproductController.do?findProductByAdmin" idField="id" fit="true">
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="商品标题/Ware Titel" field="name" width="140"></t:dgCol>
             <t:dgCol title="商品描述/Produktbeschreibung" field="description" width="180"></t:dgCol>

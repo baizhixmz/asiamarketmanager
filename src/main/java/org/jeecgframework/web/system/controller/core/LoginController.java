@@ -240,7 +240,9 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "checkuser")
 	@ResponseBody
-	public AjaxJson checkuser(TSUser user, HttpServletRequest req) {
+	public AjaxJson checkuser(TSUser user, HttpServletRequest req,HttpServletResponse response) {
+		
+		
 		HttpSession session = req.getSession();
 		AjaxJson j = new AjaxJson();
 		//语言选择
@@ -266,12 +268,27 @@ public class LoginController extends BaseController{
 		} else if (isInBlackList(IpUtil.getIpAddr(req))){
 			j.setMsg(mutiLangService.getLang("common.blacklist.error"));
 			j.setSuccess(false);
-		}
-		else {
+		}else {
+			
+			
+			
 			//用户登录验证逻辑
-			TSUser u = userService.checkUserExits(user);
+			TSUser u = userService.checkUserExits(user);			
+			
+			Cookie usernameCookie = new Cookie("ADMINUSERNAME", u.getUserName());
+			//设置cookie有效期为一个月
+			usernameCookie.setMaxAge(3600*24*365);
+			response.addCookie(usernameCookie);
+			
+
+			Cookie pwdCookie = new Cookie("ADMINPASSWORD", u.getPassword());
+			//设置cookie有效期为一个月
+			pwdCookie.setMaxAge(3600*24*365);
+			response.addCookie(pwdCookie);
+			
 			if (u == null) {
 				u = userService.findUniqueByProperty(TSUser.class, "email", user.getUserName());
+				
 				if(u == null || u.getPassword().equals(PasswordUtil.encrypt(u.getUserName(), u.getPassword(), PasswordUtil.getStaticSalt()))){
 					j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
 					j.setSuccess(false);
@@ -292,11 +309,12 @@ public class LoginController extends BaseController{
 						attrMap.put("user", u);
 					} else {
 						Map<String, Object> userOrgMap = systemService.findOneForJdbc("select org_id as orgId from t_s_user_org where user_id=?", u.getId());
-						saveLoginSuccessInfo(req, u, "40289781624134e10162413c87ac0005");
+						saveLoginSuccessInfo(response,req, u, "40289781624134e10162413c87ac0005");
+				
 					}
 				} else {
 					attrMap.put("orgNum", 1);
-					saveLoginSuccessInfo(req, u, orgId);
+					saveLoginSuccessInfo(response,req, u, orgId);
 				}
 			} else {
 
@@ -320,7 +338,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "changeDefaultOrg")
 	@ResponseBody
-	public AjaxJson changeDefaultOrg(TSUser user, HttpServletRequest req) {
+	public AjaxJson changeDefaultOrg(TSUser user, HttpServletRequest req,HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		Map<String, Object> attrMap = new HashMap<String, Object>();
 		String orgId = req.getParameter("orgId");
@@ -330,9 +348,28 @@ public class LoginController extends BaseController{
 		}
 		if (oConvertUtils.isNotEmpty(orgId)) {
 			attrMap.put("orgNum", 1);
-			saveLoginSuccessInfo(req, u, orgId);
+			saveLoginSuccessInfo(response, req, u, orgId);
 		}
 		return j;
+	}
+	
+	
+	@RequestMapping(params = "cookieLogin")
+	@ResponseBody
+	public String cookieLogin(String username,String password,HttpServletRequest request,HttpServletResponse response){
+		
+		
+		
+		TSUser user = userService.checkUserExits(username, password);
+		
+		if(user != null){
+			request.getSession().setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
+			saveLoginSuccessInfo(response,request, user, "40289781624134e10162413c87ac0005");
+			return "success";
+		}else{
+			return "error";
+		}
+		
 	}
 
     /**
@@ -341,7 +378,7 @@ public class LoginController extends BaseController{
      * @param user 当前登录用户
      * @param orgId 组织主键
      */
-    private void saveLoginSuccessInfo(HttpServletRequest req, TSUser user, String orgId) {
+    private void saveLoginSuccessInfo(HttpServletResponse response,HttpServletRequest req, TSUser user, String orgId) {
     	String message = null;
         TSDepart currentDepart = systemService.get(TSDepart.class, orgId);
         user.setCurrentDepart(currentDepart);
@@ -377,7 +414,7 @@ public class LoginController extends BaseController{
 			session = req.getSession(true);//session初始化
 			session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
 			session.setAttribute("randCode",req.getParameter("randCode"));//保存验证码
-			checkuser(user,req);
+			checkuser(user,req, response);
 		}
 
         
@@ -396,6 +433,8 @@ public class LoginController extends BaseController{
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
 		TSUser user = ResourceUtil.getSessionUser();
+		
+		
 		String roles = "";
 		if (user != null) {
 			List<TSRoleUser> rUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -428,6 +467,7 @@ public class LoginController extends BaseController{
 			zIndexCookie.setMaxAge(3600*24);//一天
 			response.addCookie(zIndexCookie);
 
+			
 			/*
 			 * 单点登录 - 登录需要跳转登录前页面，自己处理 ReturnURL 使用 
 			 * HttpUtil.decodeURL(xx) 解码后重定向
