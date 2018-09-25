@@ -1,12 +1,12 @@
 $(function(){
-	var searchTool = `下单时间：
+	var searchTool = `Bestellzeit：
 					<div class="iDate date">
 						<input id="date" type="text">
 						<button type="button" class="addOn"></button>
 					</div>
 					<input id="language" type="button" value="search" onclick="search();"/>
 					<hr/>`
-	$("#cart-shop").append(searchTool);			
+	$("#cart-shop").append(searchTool);
 			$.ajax({
 				url: 'sorderController.do?getAdminOrders',
 				type: 'POST',
@@ -14,12 +14,20 @@ $(function(){
 				success:function(data){
 					if(data!=""){
 						$.each(data,function(index,ele){
+							var status = ele.orderStatus;
+							if(status == "待处理"){
+								status = "Ausstehend";
+							}else if(status == "已处理"){
+								status = "Verarbeitet";
+							}else{
+								status = "Storniert";
+							}
+
 							var totalNum = 0;
-									var orderListheaderStr = `
-										<div class="orderDetail">
+									var orderListheaderStr = `<div class="orderDetail">
 											<div class="orderListHeader">
-									        	<div class="orderNumber" >订单编号:${ele.orderNum}</div>
-									        	<div class="orderStatus">订单状态：<span style="color:#d8505c ">${ele.orderStatus}</span></div>
+									        	<div class="orderNumber" >Nummer:${ele.orderNum}</div>
+									        	<div class="orderStatus">Staat：<span style="color:#d8505c ">${status}</span></div>
 									        </div>
 										</div>`;
 								$("#cart-shop").append(orderListheaderStr);
@@ -54,15 +62,27 @@ $(function(){
 								});
 								var type;
 								if(orderType.address == null){
-									type = "上门取货";
+									type = "Abholung";
 								}else{
-									type = "邮寄";
+									type = "Mailing";
 								}
-								
 								
 								
 
 								$.each(goodsInfo,function(GoodsIndex,GoodsEle){
+									
+									var name = GoodsEle.name;
+				                	
+				                	var nameArr = name.split("/");
+				                	
+				                	var pname;
+				                	
+				                	if(nameArr.length == 1){
+				                		pname = nameArr[0];
+				                	}else{
+				                		pname = nameArr[1];
+				                	}
+									
 									totalNum+=GoodsEle.count;
 									// console.log(GoodsEle);
 									var orderListContentrStr = `<div class="item"><div class="cart-shop-content">
@@ -71,11 +91,11 @@ $(function(){
 											                    <img src="${GoodsEle.imgsrc}" alt=""/>
 											                </a>
 											                <div class="product-info">
-											                <a href="#" class="info-txt">${GoodsEle.name}</a>
+											                <a href="#" class="info-txt">${pname}</a>
 											                    <div class="option">
 											                        <div class="pull-left">
-											                    		<p class="price">商品单价：€ <b>${GoodsEle.price}</b></p>
-											                            <span>购买数量：<b>${GoodsEle.count}</b></span>
+											                    		<p class="price">Produkt Stückpreis：€ <b>${GoodsEle.price}</b></p>
+											                            <span>Einkaufsmenge：<b>${GoodsEle.count}</b></span>
 											                        </div>
 											                    </div>
 											                </div>
@@ -87,13 +107,13 @@ $(function(){
 								
 								var orderListFooterStr = `<div style="height:55px;">
 												        	<div style="margin:5px;">
-												        		收/取件人：<span class="totalNum">${orderType.name}</span>
-												        		联系方式：<a href="tel:${orderType.phone}" style="color:#668BB0;">${orderType.phone}</a>
+												        		Kontakt：<span class="totalNum">${orderType.name}</span>
+												        		Handynummer：<a href="tel:${orderType.phone}" style="color:#668BB0;">${orderType.phone}</a>
 												        	</div>
 												        	<div style="margin-top:10px;margin-left:5px;">
-												        		订单类型：${type}&nbsp;&nbsp;&nbsp;
-												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="cancelOrder(this);">取消订单</a></button>
-												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">确认订单</a></button>
+												        		Bestellart：${type}&nbsp;&nbsp;&nbsp;
+												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="cancelOrder(this);">Abbrechen</a></button>
+												        		<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">Bestätigen Sie</a></button>
 												        	</div>
 												        </div>`;
 
@@ -102,7 +122,7 @@ $(function(){
 						})
 					}
 					else{
-						$("#cart-shop").empty().html("您的订单为空");
+						$("#cart-shop").empty().html("Die ausstehende Bestellung ist leer!");
 					}
 				}
 			})
@@ -136,9 +156,9 @@ function cancelOrder(obj){
 	var setButton = '';
 	
 		
-	setTitle = '提示';
-	setContents = '您确定要取消该订单吗？';
-	setButton = '["取消","确定"]';
+	setTitle = 'Aufforderung';
+	setContents = 'Sind Sie sicher, dass Sie die Bestellung stornieren möchten?';
+	setButton = '["Abbrechen","Ermitteln"]';
 	$(obj).openWindow(setTitle,setContents,setButton);
 	
 	var thisObj = $(obj);
@@ -158,21 +178,19 @@ function cancelOrder(obj){
 			}
 		});
 	});
-	
 }
 
 
 function searchOrder(time){
 	
-	
-	var searchTool = `下单时间：
+	var searchTool = `Bestellzeit：
 						<div class="iDate date">
 							<input id="date" type="text">
 							<button type="button" class="addOn"></button>
 						</div>
 						<input id="language" type="button" value="search" onclick="search();"/>
 						<hr/>`
-	$("#cart-shop").append(searchTool);	
+	$("#cart-shop").append(searchTool);
 	
 	$.ajax({
 		url: 'sorderController.do?search',
@@ -182,11 +200,20 @@ function searchOrder(time){
 		success:function(data){
 			if(data!=""){
 				$.each(data,function(index,ele){
+					var status = ele.orderStatus;
+					if(status == "待处理"){
+						status = "Ausstehend";
+					}else if(status == "已处理"){
+						status = "Verarbeitet";
+					}else{
+						status = "Storniert";
+					}
+
 					var totalNum = 0;
 							var orderListheaderStr = `<div class="orderDetail">
 									<div class="orderListHeader">
-										<div class="orderNumber" >订单编号:${ele.orderNum}</div>
-										<div class="orderStatus">订单状态：<span style="color:#d8505c ">${ele.orderStatus}</span></div>
+										<div class="orderNumber" >Nummer:${ele.orderNum}</div>
+										<div class="orderStatus">Staat：<span style="color:#d8505c ">${status}</span></div>
 									</div>
 								</div>`;
 						$("#cart-shop").append(orderListheaderStr);
@@ -221,15 +248,27 @@ function searchOrder(time){
 						});
 						var type;
 						if(orderType.address == null){
-							type = "上门取货";
+							type = "Abholung";
 						}else{
-							type = "邮寄";
+							type = "Mailing";
 						}
-						
 						
 						
 
 						$.each(goodsInfo,function(GoodsIndex,GoodsEle){
+							
+							var name = GoodsEle.name;
+		                	
+		                	var nameArr = name.split("/");
+		                	
+		                	var pname;
+		                	
+		                	if(nameArr.length == 1){
+		                		pname = nameArr[0];
+		                	}else{
+		                		pname = nameArr[1];
+		                	}
+							
 							totalNum+=GoodsEle.count;
 							// console.log(GoodsEle);
 							var orderListContentrStr = `<div class="item"><div class="cart-shop-content">
@@ -238,11 +277,11 @@ function searchOrder(time){
 														<img src="${GoodsEle.imgsrc}" alt=""/>
 													</a>
 													<div class="product-info">
-													<a href="#" class="info-txt">${GoodsEle.name}</a>
+													<a href="#" class="info-txt">${pname}</a>
 														<div class="option">
 															<div class="pull-left">
-																<p class="price">商品单价：€ <b>${GoodsEle.price}</b></p>
-																<span>购买数量：<b>${GoodsEle.count}</b></span>
+																<p class="price">Produkt Stückpreis：€ <b>${GoodsEle.price}</b></p>
+																<span>Einkaufsmenge：<b>${GoodsEle.count}</b></span>
 															</div>
 														</div>
 													</div>
@@ -254,13 +293,13 @@ function searchOrder(time){
 						
 						var orderListFooterStr = `<div style="height:55px;">
 													<div style="margin:5px;">
-														收/取件人：<span class="totalNum">${orderType.name}</span>
-														联系方式：<a href="tel:${orderType.phone}" style="color:#668BB0;">${orderType.phone}</a>
+														Kontakt：<span class="totalNum">${orderType.name}</span>
+														Handynummer：<a href="tel:${orderType.phone}" style="color:#668BB0;">${orderType.phone}</a>
 													</div>
 													<div style="margin-top:10px;margin-left:5px;">
-														订单类型：${type}&nbsp;&nbsp;&nbsp;
-														<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="cancelOrder(this);">取消订单</a></button>
-														<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">确认订单</a></button>
+														Bestellart：${type}&nbsp;&nbsp;&nbsp;
+														<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="cancelOrder(this);">Abbrechen</a></button>
+														<button class="layui-btn layui-btn-radius layui-btn-primary layui-btn-xs"><a href="#" id="${ele.id}" onclick="changeStatus(this);">Best?tigen Sie</a></button>
 													</div>
 												</div>`;
 
@@ -269,9 +308,21 @@ function searchOrder(time){
 				})
 			}
 			else{
-				$("#cart-shop").empty().html("您的订单为空");
+				$("#cart-shop").empty()
+				var searchTool = `Bestellzeit：
+					<div class="iDate date">
+						<input id="date" type="text">
+						<button type="button" class="addOn"></button>
+					</div>
+					<input id="language" type="button" value="search" onclick="search();"/>
+					<hr/>`
+				$("#cart-shop").append(searchTool);
+				dateTool();
+				$("#cart-shop").append("Die ausstehende Bestellung ist leer!");
 			}
 		}
 	})
+	
+	
 }
 

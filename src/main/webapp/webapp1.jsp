@@ -26,16 +26,17 @@
 		<link rel="stylesheet" type="text/css" href="plug-in/webapp/date/css/styles.css" media="all">
 		<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
 		<script src="plug-in/webapp/js/lib/zepto.min.js"></script>
-		<script src="plug-in/webapp/js/orderList.js"></script>
+		<script src="plug-in/webapp/js/orderList1.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/smart-menu/jquery-smartMenu.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl.js"></script>
 		<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl-util.js"></script>
 		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 		<script src="plug-in/jQueryYdtc/js/windowOpen.js"></script>
-
+		
 		<script src="plug-in/webapp/date/js/jquery.js"></script>
 		<script type="text/javascript" src="plug-in/webapp/date/js/moment.js"></script>
 		<script type="text/javascript" src="plug-in/webapp/date/js/bootstrap-datetimepicker.js"></script>
+		
 		<style>
 			.addOne {
 				display: inline-block;
@@ -94,9 +95,9 @@
 		<!-- 头部 -->
 		<header>
 			<div class="left">
-				<span id="name"></span><br/>
+				<span id="name"></span>
 			</div>
-			<div class="title">店铺订单</div>
+			<div class="title">Bestellung</div>
 			
 			
 			<script type="text/javascript"> 
@@ -138,10 +139,10 @@
 				             data: {adminId:'${sessionScope.LOCAL_CLINET_USER.id}'},
 				             dataType: "json",
 				             success: function(data){
-				             	$("#name").html(data.name1);
+				             	$("#name").html(data.name2);
 				             }
 				         });
-					}
+					}	
 					
 					dateTool();
 				});
@@ -198,24 +199,26 @@
 					return returnvalue;
 				}
 				
-				function toDeutschPage(){
-					window.location.href = "webapp1.jsp";
+				function toChinaPage(){
+					window.location.href = "webapp.jsp";
 				}
 				
 			</script>
 			
 			<div class="right">
 				<li class="dropdown hidden-xs">
-				    <i class="fa fa-bell" style="color:#EE6B6B;"></i> 待办(<span id="view">0</span>)&nbsp;
+				    <i class="fa fa-bell" style="color:#EE6B6B;"></i> Aufgabe(<span id="view">0</span>)&nbsp;
 				    <!-- <a href="#" style="color:#EE6B6B;font-size: 10px;">注销</a> -->
-					<input id="language" type="button" value="Deutsch" onclick="toDeutschPage();"/>
+					<input id="language" type="button" value="中文" onclick="toChinaPage();"/>
 				</li> 
 			</div>
 			
-		</header>
+		</header>	
+		
 		<div id="cart-shop" class="cart-shop">
+		
     	</div>
-		<script type="text/javascript">
+    	<script type="text/javascript">
 			function dateTool(){
 			    if($(".iDate.date").length>0){
 			        $(".iDate.date").datetimepicker({

@@ -160,78 +160,8 @@ loadRemoteData = function(adminId,adminName) {
         })
     }
 
-    /**
-     * 删除购物车中的商品
-     * @param  {[number]} goodsId [商品ID]
-     * @return {[type]}         [description]
-     */
-    function delGoods(goodsId) {
-        $.ajax({
-            url: getHostName()+'/cartCar/dropCartGood',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {id: goodsId},
-        })
-    }
+    
 
-
-
-
-    // 搜索部分
-    $("#categary-left").on("touchend", "#search", function () {
-        $(".searchTop").toggle();
-    })
-
-    // 搜索
-    $("#btnSearch").on("touchend", function () {
-        console.log($("#iptGoodsName").val());
-        if(adminName == "SuperAdmin"){
-            condition = "where flag='Y' and name like '%" + $("#iptGoodsName").val() + "%'";
-        }else {
-            condition = "where admin_id='" + adminId + "' and name like '%" + $("#iptGoodsName").val() + "%'";
-        }
-        $.ajax({
-            url: getHostName()+'/product/findProductsByDsql.do',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                condition: condition,
-                index: 1,
-            },
-            timeout: 1000,
-            success: function (data) {
-                if (data != "[]") {
-                    $("#product-info").empty();
-                    $.each(JSON.parse(data), function (index, el) {
-                        var str = `<li data-goodsId=${el.id}>
-                                        <div class="left-img">
-                                            <a href="#">
-                                                <img src=${getHostName2()}/net_shop_manager/${el.imgsrc} alt="">
-                                            </a>
-                                        </div>
-                                        <div class="middle-info">
-                                            <div class="product-name">${el.name}
-                                            </div>
-                                            <div class="product-price">
-                                                €${el.price}
-                                            </div>
-                                        </div>
-                                        <div class="right-num">
-                                            <span id="minusOne" class="iconfont  icon-subtract minusOne"></span>
-                                            <span id="num" class="num"> 0 </span>
-                                            <span id="addOne" class="iconfont  icon-add addOne"></span>
-                                        </div>
-                                    </li>`;
-                        $("#product-info").append(str);
-                    });
-                }
-                else {
-                    $("#product-info").empty();
-                    $("#product-info").html("未能查询到此商品");
-                }
-            }
-        })
-    })
 }
 
 

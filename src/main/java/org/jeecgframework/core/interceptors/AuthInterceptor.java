@@ -116,6 +116,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		//logger.info("-----authInterceptor----requestPath------"+requestPath);
 		//步骤一： 判断是否是排除拦截请求，直接返回TRUE
 		
+		
 		if("loginController.do?cookieLogin".equals(requestPath)){
 			return true;
 		}

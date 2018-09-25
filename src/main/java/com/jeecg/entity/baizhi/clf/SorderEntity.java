@@ -185,4 +185,16 @@ public class SorderEntity implements java.io.Serializable {
 	public void setProducts(List<SproductEntity> products) {
 		this.products = products;
 	}
+
+	@Override
+	public String toString() {
+		return "SorderEntity [id=" + id + ", orderNum=" + orderNum
+				+ ", orderStatus=" + orderStatus + ", orderSalary="
+				+ orderSalary + ", userId=" + userId + ", time=" + time
+				+ ", adminId=" + adminId + ", shopId=" + shopId + ", products="
+				+ products + "]";
+	}
+	
+	
+	
 }

@@ -113,7 +113,6 @@ public class SorderController extends BaseController {
     
     @RequestMapping(params = "webapplist")
     public ModelAndView webapplist(HttpServletRequest request) {
-    	System.out.println("=====================");
     	return new ModelAndView("com/jeecg/baizhi.clf/sorderListWebapp");
     }
 
@@ -589,7 +588,7 @@ public class SorderController extends BaseController {
     	TSUser tsUser = (TSUser)request.getSession().getAttribute(ResourceUtil.LOCAL_CLINET_USER);
     	
     	List<SorderEntity> orders = systemService.findByProperty(SorderEntity.class, "adminId", tsUser.getId());
-    	
+    	    	
     	List<SorderEntity> result = new ArrayList<SorderEntity>();
     	
     	for (SorderEntity sorderEntity : orders) {
@@ -601,6 +600,21 @@ public class SorderController extends BaseController {
 		}
     	
     	return result;
+    	
+    }
+    
+    @RequestMapping(params = "search")
+    @ResponseBody
+    public List<SorderEntity> search(HttpServletRequest request,String time){
+    	    	
+    	String hql = "from SorderEntity where time like '"+time+"%'";
+    	List<SorderEntity> orders = systemService.findByQueryString(hql);
+    	
+    	for (SorderEntity sorderEntity : orders) {
+    		System.out.println(sorderEntity);
+		}
+    	
+    	return orders;
     	
     }
     
